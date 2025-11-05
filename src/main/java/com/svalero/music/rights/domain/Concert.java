@@ -6,34 +6,35 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name= "concerts")
+public class Concert {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String username;
+    private String showTitle;
     @Column
-    private String name;
+    private String city;
     @Column
-    private String surname;
+    private String province;
     @Column
-    private String email;
+    private LocalDate date;
     @Column
-    private String passwordHash;
-    @Column (name = "register_date")
-    private LocalDate registerDate;
+    private String status;
+    @Column
+    private Double longitude;
+    @Column
+    private Double latitude;
 
-    //TODO RELACIONAR CON ALGUNA TABLA EL USUARIO
-
-    @OneToOne
-    @JoinColumn (name = "musician_id")
+    @ManyToOne
+    @JoinColumn(name = "musician_id")
 
     private Musician musician;
 }

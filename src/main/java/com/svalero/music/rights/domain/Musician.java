@@ -15,9 +15,10 @@ import java.util.List;
 @Table(name = "musicians")
 
 public class Musician {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column (name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -36,4 +37,6 @@ public class Musician {
     @ManyToMany(mappedBy = "musicians")
     private List<Work> works;
 
+    @OneToMany(mappedBy = "musician")
+    private List <Claim> claims;
 }

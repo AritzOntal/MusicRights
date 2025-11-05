@@ -22,15 +22,15 @@ public class Document {
     @Column
     private String filename;
     @Column
-    private long size;
+    private Long size;
     @Column (name = "create_at")
     private LocalDate createAt;
     @Column
-    private boolean complety;
+    private boolean complete;
     //TODO CREAR COLUMNA PARA GUARDAR ARRAY DE BYETS DEL PDF
 
     @OneToOne
-    @JoinColumn(name = "program_report_id, unique = true")
-    private ProgramReport programReport;
+    @JoinColumn(name = "concert_id, unique = true")
+    private Concert concert;
 
 }
