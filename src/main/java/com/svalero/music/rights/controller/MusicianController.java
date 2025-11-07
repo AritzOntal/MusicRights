@@ -32,7 +32,7 @@ public class MusicianController {
         musicianService.edit(id, musician);
     }
 
-    @DeleteMapping("/musician/{id}")
+    @DeleteMapping("/musicians/{id}")
     public void removeMusician(@PathVariable long id) {
         musicianService.delete(id);
     }

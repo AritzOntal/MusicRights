@@ -13,8 +13,11 @@ import java.util.List;
 @Service
 public class MusicianService {
 
-    @Autowired
     private MusicianRepository musicianRepository; //REFERENCIA AL REPOSITORIO POR AUTOWIRED
+
+    public MusicianService(MusicianRepository musicianRepository) { //MEJOR CON CONSTRUCTOR QUE CON AUTOWIRED
+        this.musicianRepository = musicianRepository;
+    }
 
     public void add(Musician musician) {
         musicianRepository.save(musician);
