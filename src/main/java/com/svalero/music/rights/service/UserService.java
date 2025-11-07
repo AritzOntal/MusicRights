@@ -1,4 +1,4 @@
 package com.svalero.music.rights.service;
 
-public class UserController {
+public class UserService {
 }
