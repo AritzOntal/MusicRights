@@ -31,8 +31,9 @@ public class Musician {
     private String dni;
     @Column (name = "affiliated_number")
     private long affiliatedNumber;
-    //TODO RELACIONAR CON UNA LISTA DE WORKS POR MUSICO (List<Work)
 
+
+    // RELACIONAR CON UNA LISTA DE WORKS POR MUSICO (List<Work)
     //NO VUELVO A CREAR LA TABLA, UTIULIZO MAPPER
     @ManyToMany(mappedBy = "musicians")
     private List<Work> works;
