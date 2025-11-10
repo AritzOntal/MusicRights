@@ -31,34 +31,26 @@ public Claim get(@PathVariable long id) {
 }
 
 @PostMapping("/claims")
-public void addClaim (@RequestBody Claim claim) {
+public void create (@RequestBody Claim claim) {
         claimService.add(claim);
     }
 
 @PutMapping("claims/{id}")
-    public void updateClaim (@RequestBody Claim claim, @PathVariable int id) {
+    public void update (@RequestBody Claim claim, @PathVariable int id) {
         Claim updatedClaim = claimService.update(id, claim);
 }
 
 @DeleteMapping("claims/{id}")
-public void removeClaim (@PathVariable int id) {
+public void remove (@PathVariable int id) {
         claimService.delete(id);
 }
 
 //FILTRADOS
 
 @GetMapping("/claims/by-musician/{id}")
-public List<Claim> getall (@PathVariable long id) {
+public List<Claim> getByMusician (@PathVariable long id) {
         List<Claim> claimsOfMusician = claimService.findByMusicianId(id);
         return claimsOfMusician;
-}
-
-
-
-
-
-
-
-
+    }
 
 }

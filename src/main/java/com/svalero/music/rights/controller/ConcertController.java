@@ -24,30 +24,30 @@ public class ConcertController {
     }
 
     @GetMapping("/concerts{id}")
-    public Concert getById(long id) {
+    public Concert get(long id) {
         Concert concert = concertService.findById(id);
         return concert;
     }
 
     @PostMapping("/concerts")
-    public void addConcert(@RequestBody Concert concert) {
+    public void create(@RequestBody Concert concert) {
         concertService.add(concert);
     }
 
     @PutMapping("concerts/{id}")
-    public void updateConcert(@RequestBody Concert concert, @PathVariable long id) {
+    public void update(@RequestBody Concert concert, @PathVariable long id) {
         concertService.edit(id, concert);
 
     }
 
     @DeleteMapping("/concerts/{id}")
-    public void deleteConcert(@PathVariable long id) {
+    public void delete(@PathVariable long id) {
         concertService.delete(id);
     }
 
     //FILTRADO
     @GetMapping("concerts/by-musician/{id}")
-    public List<Concert> getConcertsByIdMusician(@PathVariable Long id) {
+    public List<Concert> getByMusician(@PathVariable Long id) {
         List <Concert> concertsOfMusician = concertService.findAllbyMusicianId(id);
         return concertsOfMusician;
     }

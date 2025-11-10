@@ -25,31 +25,31 @@ public class MusicianController {
     }
 
     @GetMapping("/musicians/{id}")
-    public Musician getOne(@PathVariable Long id) {
+    public Musician get(@PathVariable Long id) {
         Musician musician =  musicianService.findById(id);
         return musician;
     }
 
     @PostMapping("/musicians")
-    public void addGame(@RequestBody Musician musician) {
+    public void create(@RequestBody Musician musician) {
         musicianService.add(musician);
     }
 
     @PutMapping("/musicians/{id}")
-    public void modifyMusician(@PathVariable long id, @RequestBody Musician musician) {
+    public void edit(@PathVariable long id, @RequestBody Musician musician) {
         musicianService.edit(id, musician);
     }
 
     @DeleteMapping("/musicians/{id}")
-    public void removeMusician(@PathVariable long id) {
+    public void delete(@PathVariable long id) {
         musicianService.delete(id);
     }
 
 
     //FILTRADOS
     @GetMapping("/musicians/by-work/{id}")
-    public List<Work> getWorks(@PathVariable long id) {
-        List <Work> musiciansOfWorks = musicianService.findByMusicianId(id);
+    public List<Musician> getByMusician(@PathVariable long id) {
+        List <Musician> musiciansOfWorks = musicianService.findByMusicianId(id);
         return musiciansOfWorks;
     }
 }

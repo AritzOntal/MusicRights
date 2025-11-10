@@ -50,13 +50,9 @@ public class WorkController {
 
     //FILTRADO
     @GetMapping("/works/by-musician/{id}")
-    public List<Work> findByMuscianId(@PathVariable Long id) {
+    public List<Work> getByMuscian(@PathVariable Long id) {
         List <Work> worksOfMusician = workService.findByMusician(id);
         return worksOfMusician;
     }
-
-
-
-
 
 }

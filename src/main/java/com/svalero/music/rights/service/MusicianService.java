@@ -56,9 +56,9 @@ public class MusicianService {
 
     //FILTRADOS
 
-    public List<Work> findByMusicianId(long id) {
-        List <Work> works = musicianRepository.findWorksByMusicianId(id);
-        return works;
+    public List<Musician> findByMusicianId(long id) {
+        List <Musician> musicians = musicianRepository.findMusicianByWork(id);
+        return musicians;
     }
 }
 

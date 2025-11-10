@@ -32,23 +32,23 @@ public class DocumentController {
     }
 
     @PostMapping("/documents")
-    public void addDocument (@RequestBody Document document) {
+    public void create (@RequestBody Document document) {
         documentService.add(document);
     }
 
     @PutMapping("/documents/{id}")
-    public void updateDocument (@RequestBody Document document, @PathVariable Long id) {
+    public void update (@RequestBody Document document, @PathVariable Long id) {
         documentService.edit(id,  document);
     }
 
     @DeleteMapping("/documents/{id}")
-    public void deleteDocument(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         documentService.delete(id);
     }
 
     //FILTRADOS
     @GetMapping("/documents/by-claim/{id}")
-    public Document getDocumentByClaim(@PathVariable Long id){
+    public Document getByClaim(@PathVariable Long id){
         Document documentOfClaim = documentService.findByClaim(id);
         return documentOfClaim;
     }
