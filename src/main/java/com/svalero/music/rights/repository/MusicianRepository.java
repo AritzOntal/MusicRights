@@ -1,13 +1,18 @@
 package com.svalero.music.rights.repository;
 
 import com.svalero.music.rights.domain.Musician;
+import com.svalero.music.rights.domain.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface MusicianRepository extends JpaRepository<Musician, Long> {
+
+    public List<Work> findByMusicianId(long musicianId);
 
 }
 

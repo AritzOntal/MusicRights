@@ -31,12 +31,12 @@ public class WorkService {
         return work;
     }
 
-    public List<Work> findByMusician(Musician Musician) {
-        List <Work> works = workRepository.findByMusician(Musician);
+    public List<Work> findByMusician(Long id) {
+        List <Work> works = workRepository.findByMusicianId(id);
         return works;
     }
 
-    public Work edit(long id, Work updateWork) {
+        public Work edit(long id, Work updateWork) {
         Work work = findById(id);
 
         work.setDuration(updateWork.getDuration());
@@ -45,5 +45,9 @@ public class WorkService {
         work.setIsrc(updateWork.getIsrc());
 
         return work;
+    }
+
+    public void delete(long id) {
+        workRepository.deleteById(id);
     }
 }

@@ -20,16 +20,12 @@ public class ClaimService {
         return claimRepository.save(claim);
     }
 
-    public Claim findById(Long id) {
-        return claimRepository.findById(id).orElse(null);
-    }
-
     public List<Claim> findAll() {
         return claimRepository.findAll();
     }
 
-    public void delete(long id) {
-        claimRepository.deleteById(id);
+    public Claim findById(Long id) {
+        return claimRepository.findById(id).orElse(null);
     }
 
     public Claim update(long id, Claim updatedClaim) {
@@ -43,6 +39,15 @@ public class ClaimService {
 
         claimRepository.save(claim);
         return claim;
+    }
+
+    public void delete(long id) {
+        claimRepository.deleteById(id);
+    }
+
+    public List <Claim> findByMusicianId(long id) {
+        List <Claim> claims = claimRepository.findByMusicianId(id);
+        return claims;
     }
 
 }

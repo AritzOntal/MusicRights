@@ -30,7 +30,7 @@ public class Document {
     //TODO CREAR COLUMNA PARA GUARDAR ARRAY DE BYETS DEL PDF
 
     @OneToOne
-    @JoinColumn(name = "concert_id, unique = true")
-    private Concert concert;
+    @JoinColumn(name = "claim_id, unique = true")
+    private Claim claim;
 
 }

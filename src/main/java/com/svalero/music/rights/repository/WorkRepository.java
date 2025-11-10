@@ -8,6 +8,5 @@ import java.util.List;
 
 public interface WorkRepository extends JpaRepository<Work, Long> {
 
-    List<Work> findByMusician(Musician musician);
-
+    List<Work> findByMusicianId(Long musicianId);
 }

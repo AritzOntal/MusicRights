@@ -26,21 +26,34 @@ public class DocumentService {
         return documents;
     }
 
-    public List<Document> findAllByClaim(Claim claim) {
-        List <Document> documents = documentRepository.findAllByClaim(claim);
-        return documents;
-    }
-    //LISTA DE DOCUMENTOS ASOCIADOS A UN CLAIM
-
-    public void delete(Document document) {
-        documentRepository.delete(document);
-    }
-
     public Document findById(Long id){
-       Document document = documentRepository.findById(id)
-               .orElseThrow(() -> new RuntimeException("document_not_found"));
+       Document document = documentRepository.findById(id).orElseThrow(() -> new RuntimeException("document_not_found"));
        return document;
     }
 
+    public Document findByClaim(Long id) {
+        Document document = documentRepository.findByClaimId(id);
+        return document;
+    }
+    //LISTA DE DOCUMENTOS ASOCIADOS A UN CLAIM
 
+    public Document edit(Long id, Document updateDocument) {
+
+        Document document = documentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("document_not_found"));
+
+        document.setComplete(updateDocument.isComplete());
+        document.setType(updateDocument.getType());
+        document.setFilename(updateDocument.getFilename());
+        document.setSize(updateDocument.getSize());
+        document.setCreateAt(updateDocument.getCreateAt());
+
+        documentRepository.save(document);
+
+        return document;
+    }
+
+    public void delete(Long id) {
+        documentRepository.deleteById(id);
+    }
 }

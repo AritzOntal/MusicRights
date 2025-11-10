@@ -9,6 +9,5 @@ import java.util.List;
 
 public interface DocumentRepository extends JpaRepository<Document, Long> {
 
-    List<Document> findAllByClaim(Claim claim);
-
+    Document findByClaimId(Long claimId);
 }

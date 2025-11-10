@@ -21,14 +21,19 @@ public class ConcertService {
         concertRepository.save(concert);
     }
 
+    public List<Concert> findAll() {
+        List<Concert> concerts = concertRepository.findAll();
+        return concerts;
+    }
+
     public Concert findById(long id) {
         concertRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("concert_not_found"));
         return concertRepository.findById(id).get();
     }
 
-    public List<Concert> findAllbyMusician(Musician musician) {
-        List<Concert> allConcerts = concertRepository.findAllByMusician(musician);
+    public List<Concert> findAllbyMusicianId(Long id) {
+        List<Concert> allConcerts = concertRepository.findByMusicianId(id);
         return allConcerts;
     }
     //LLAMADA PARA RETORNAR TODOS LOS CONCIERTOS DE UN MUSICO
@@ -47,6 +52,11 @@ public class ConcertService {
         concertRepository.save(concert);
         return concert;
     }
+
+    public void delete(long id) {
+        concertRepository.deleteById(id);
+    }
+
 
 
 

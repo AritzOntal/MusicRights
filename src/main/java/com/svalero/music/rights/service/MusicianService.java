@@ -2,6 +2,7 @@ package com.svalero.music.rights.service;
 
 
 import com.svalero.music.rights.domain.Musician;
+import com.svalero.music.rights.domain.Work;
 import com.svalero.music.rights.repository.MusicianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,9 +29,11 @@ public class MusicianService {
         return allMusicians;
     }
 
-    public void delete(long id) {
-        musicianRepository.deleteById(id);
+    public Musician findById(Long id) {
+        Musician musician = musicianRepository.findById(id).orElse(null); //ME OLBIGA A PONER NULL PORQUE DEVUELVE UN OPTIONAL
+        return musician;
     }
+
 
     public Musician edit(long id, Musician updatedMusician) {
         Musician musician = musicianRepository.findById(id)
@@ -47,7 +50,18 @@ public class MusicianService {
         return musician;
     }
 
+    public void delete(long id) {
+        musicianRepository.deleteById(id);
+    }
+
+    //FILTRADOS
+
+    public List<Work> findByMusicianId(long id) {
+        List <Work> works = musicianRepository.findByMusicianId(id);
+        return works;
+    }
 }
+
 //EN ESTA CLASE PROGRAMO PARA LA BASE DE DATOS (CAPA LÓGICA DONDE, ES LO MÁS LIBRE)
 
 
