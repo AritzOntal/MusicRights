@@ -1,6 +1,10 @@
 package com.svalero.music.rights.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,16 +21,28 @@ public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+
+    @Column (nullable = false)
     private String type;
-    @Column
+
+    @Column (nullable = false)
     private String filename;
+
+    @Positive
     @Column
     private Long size;
+
+    @PastOrPresent
     @Column (name = "create_at")
     private LocalDate createAt;
+
     @Column
     private boolean complete;
+
+    @DecimalMax("100.0")
+    @Column
+    private float completionPercentage;
+
     //TODO CREAR COLUMNA PARA GUARDAR ARRAY DE BYETS DEL PDF
 
     @OneToOne
