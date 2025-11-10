@@ -3,6 +3,7 @@ package com.svalero.music.rights.controller;
 import com.svalero.music.rights.domain.Work;
 import com.svalero.music.rights.service.DocumentService;
 import com.svalero.music.rights.service.WorkService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,12 +33,12 @@ public class WorkController {
     }
 
     @PostMapping("/works")
-    public void create(@RequestBody Work work) {
+    public void create(@Valid @RequestBody Work work) {
         workService.add(work);
     }
 
     @PutMapping("/works/{id}")
-    public void update(@PathVariable Long id, @RequestBody Work work) {
+    public void update(@Valid @PathVariable Long id, @RequestBody Work work) {
         workService.edit(id, work);
     }
 
