@@ -26,14 +26,12 @@ public class DocumentService {
         return documents;
     }
 
-    public Document findById(Long id){
-       Document document = documentRepository.findById(id).orElseThrow(() -> new RuntimeException("document_not_found"));
-       return document;
+    public Document findById(Long id) {
+        return documentRepository.findById(id).orElseThrow(() -> new RuntimeException("document_not_found"));
     }
 
     public Document findByClaim(Long id) {
-        Document document = documentRepository.findByClaimId(id);
-        return document;
+        return documentRepository.findByClaimId(id);
     }
     //LISTA DE DOCUMENTOS ASOCIADOS A UN CLAIM
 

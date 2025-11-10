@@ -18,7 +18,7 @@ public class Claim {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long claimId;
+    private Long id;
     @Column
     private String reference;
     @Column
@@ -30,7 +30,6 @@ public class Claim {
 
     @ManyToOne
     @JoinColumn (name = "musician_id")
-
     private Musician musician;
 
 }

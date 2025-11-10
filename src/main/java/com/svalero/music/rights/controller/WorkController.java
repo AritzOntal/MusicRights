@@ -26,7 +26,7 @@ public class WorkController {
         return allWorks;
     }
 
-    @GetMapping("/works")
+    @GetMapping("/works/{id}")
     public Work get(@RequestParam Long id) {
         Work work = workService.findById(id);
         return work;

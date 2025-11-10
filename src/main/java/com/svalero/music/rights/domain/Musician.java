@@ -34,7 +34,7 @@ public class Musician {
 
 
     // RELACIONAR CON UNA LISTA DE WORKS POR MUSICO (List<Work)
-    //NO VUELVO A CREAR LA TABLA, UTIULIZO MAPPER
+    //NO VUELVO A CREAR LA TABLA, UTIULIZO MAPPEDBY
     @ManyToMany(mappedBy = "musicians")
     private List<Work> works;
 

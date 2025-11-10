@@ -14,7 +14,7 @@ public class MusicianController {
 
     private final MusicianService musicianService;
 
-    public MusicianController(MusicianService musicianService, WorkService workService) {
+    public MusicianController(MusicianService musicianService) {
         this.musicianService = musicianService;
     }
 
