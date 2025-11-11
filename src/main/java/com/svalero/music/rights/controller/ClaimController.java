@@ -40,12 +40,12 @@ public void create (@RequestBody Claim claim) {
         claimService.add(claim);
     }
 
-@PutMapping("claims/{id}")
+@PutMapping("/claims/{id}")
     public void update (@RequestBody Claim claim, @PathVariable long id) throws ClaimNotFoundException {
         Claim updatedClaim = claimService.modify(id, claim);
 }
 
-@DeleteMapping("claims/{id}")
+@DeleteMapping("/claims/{id}")
 public void remove (@PathVariable long id) throws ClaimNotFoundException {
         claimService.delete(id);
 }

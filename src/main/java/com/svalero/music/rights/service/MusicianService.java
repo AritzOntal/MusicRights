@@ -3,7 +3,9 @@ package com.svalero.music.rights.service;
 
 import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.domain.Work;
+import com.svalero.music.rights.exception.WorkNotFoundException;
 import com.svalero.music.rights.repository.MusicianRepository;
+import com.svalero.music.rights.repository.WorkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,12 @@ import java.util.List;
 @Service
 public class MusicianService {
 
-    private MusicianRepository musicianRepository; //REFERENCIA AL REPOSITORIO POR AUTOWIRED
+    private MusicianRepository musicianRepository;
+    private WorkRepository workRepository; //REFERENCIA AL REPOSITORIO POR AUTOWIRED
 
-    public MusicianService(MusicianRepository musicianRepository) { //MEJOR CON CONSTRUCTOR QUE CON AUTOWIRED
+    public MusicianService(MusicianRepository musicianRepository, WorkRepository workRepository) { //MEJOR CON CONSTRUCTOR QUE CON AUTOWIRED
         this.musicianRepository = musicianRepository;
+        this.workRepository = workRepository;
     }
 
     public void add(Musician musician) {
@@ -55,11 +59,13 @@ public class MusicianService {
     }
 
     //FILTRADOS
+    public List<Musician> findByWorkId(long workId) throws WorkNotFoundException {
+        workRepository.findById(workId)
+                .orElseThrow(WorkNotFoundException::new);
 
-    public List<Musician> findByWorkId(long id) {
-        List <Musician> musicians = musicianRepository.findMusiciansByWork(id);
-        return musicians;
-    }
+            List<Musician> musicians = musicianRepository.findMusiciansByWork(workId);
+            return musicians;
+        }
 }
 
 //EN ESTA CLASE PROGRAMO PARA LA BASE DE DATOS (CAPA LÓGICA DONDE, ES LO MÁS LIBRE)

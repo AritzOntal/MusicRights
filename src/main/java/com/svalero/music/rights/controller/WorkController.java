@@ -1,9 +1,14 @@
 package com.svalero.music.rights.controller;
 
 import com.svalero.music.rights.domain.Work;
+import com.svalero.music.rights.exception.ErrorResponse;
+import com.svalero.music.rights.exception.MusicianNotFoundException;
+import com.svalero.music.rights.exception.WorkNotFoundException;
 import com.svalero.music.rights.service.DocumentService;
 import com.svalero.music.rights.service.WorkService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,9 +54,21 @@ public class WorkController {
 
     //FILTRADO
     @GetMapping("/works/by-musician/{id}")
-    public List<Work> getByMusician(@PathVariable Long id) {
+    public List<Work> getByMusician(@PathVariable Long id) throws MusicianNotFoundException {
         List <Work> worksOfMusician = workService.findByMusician(id);
         return worksOfMusician;
+    }
+
+    @ExceptionHandler(WorkNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(WorkNotFoundException cnfe) {
+        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "La obra no existe");
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MusicianNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(MusicianNotFoundException cnfe) {
+        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "El músico no existe");
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
 }
