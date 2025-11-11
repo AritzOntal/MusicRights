@@ -24,38 +24,42 @@ public class ClaimController {
     }
 
 @GetMapping("/claims")
-public List<Claim> getAll() {
+public ResponseEntity <List<Claim>> getAll() {
         List<Claim> claim = claimService.findAll();
-        return claim;
+        return ResponseEntity.ok().body(claim);
 }
 
 @GetMapping("/claims/{id}")
-public Claim get(@PathVariable long id) throws ClaimNotFoundException {
+public ResponseEntity <Claim> get(@PathVariable long id) throws ClaimNotFoundException {
         Claim claim = claimService.findById(id);
-        return claim;
+        return  ResponseEntity.ok().body(claim);
 }
 
 @PostMapping("/claims")
-public void create (@RequestBody Claim claim) {
+public ResponseEntity <Claim> create (@RequestBody Claim claim) {
         claimService.add(claim);
+        return ResponseEntity.status(HttpStatus.CREATED).body(claim);
     }
 
+
 @PutMapping("/claims/{id}")
-    public void update (@RequestBody Claim claim, @PathVariable long id) throws ClaimNotFoundException {
+    public ResponseEntity<Claim> update (@RequestBody Claim claim, @PathVariable long id) throws ClaimNotFoundException {
         Claim updatedClaim = claimService.modify(id, claim);
+        return ResponseEntity.ok().body(updatedClaim);
 }
 
 @DeleteMapping("/claims/{id}")
-public void remove (@PathVariable long id) throws ClaimNotFoundException {
+public ResponseEntity <Void> remove (@PathVariable long id) throws ClaimNotFoundException {
         claimService.delete(id);
+        return ResponseEntity.noContent().build();
 }
 
 //FILTRADOS
 
 @GetMapping("/claims/by-musician/{id}")
-public List<Claim> getByMusician (@PathVariable long id) throws MusicianNotFoundException {
+public ResponseEntity<List<Claim>> getByMusician (@PathVariable long id) throws MusicianNotFoundException {
         List<Claim> claimsOfMusician = claimService.findByMusicianId(id);
-        return claimsOfMusician;
+        return  ResponseEntity.ok().body(claimsOfMusician);
     }
 
 

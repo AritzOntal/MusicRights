@@ -25,37 +25,39 @@ public class MusicianController {
     }
 
     @GetMapping("/musicians")
-    public List<Musician> getALl() {
+    public ResponseEntity<List<Musician>> getALl() {
         List<Musician> allMusicians = musicianService.findALl();
-        return allMusicians;
+        return  ResponseEntity.ok().body(allMusicians);
     }
 
     @GetMapping("/musicians/{id}")
-    public Musician get(@PathVariable Long id) {
+    public ResponseEntity <Musician> get(@PathVariable Long id) {
         Musician musician =  musicianService.findById(id);
-        return musician;
+        return  ResponseEntity.ok().body(musician);
     }
 
     @PostMapping("/musicians")
-    public void create(@RequestBody Musician musician) {
+    public ResponseEntity <Musician> create(@RequestBody Musician musician) {
         musicianService.add(musician);
+        return  ResponseEntity.status(HttpStatus.CREATED).body(musician);
     }
 
     @PutMapping("/musicians/{id}")
-    public void edit(@PathVariable long id, @RequestBody Musician musician) {
+    public ResponseEntity <Musician> edit(@PathVariable long id, @RequestBody Musician musician) {
         musicianService.edit(id, musician);
+        return  ResponseEntity.ok().body(musician);
     }
 
     @DeleteMapping("/musicians/{id}")
-    public void delete(@PathVariable long id) {
+    public ResponseEntity <Void> delete(@PathVariable long id) {
         musicianService.delete(id);
+        return  ResponseEntity.noContent().build();
     }
 
     //FILTRADOS
     @GetMapping("/musicians/by-work/{id}")
-    public List<Musician> getByWork(@PathVariable long id) throws WorkNotFoundException {
+    public ResponseEntity <List<Musician>> getByWork(@PathVariable long id) throws WorkNotFoundException {
         List <Musician> musiciansOfWork = musicianService.findByWorkId(id);
-        return musiciansOfWork;
+        return  ResponseEntity.ok().body(musiciansOfWork);
     }
-
 }

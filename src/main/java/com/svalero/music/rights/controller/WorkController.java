@@ -25,37 +25,39 @@ public class WorkController {
     }
 
     @GetMapping("/works")
-        public List<Work> getAll() {
+        public ResponseEntity <List<Work>> getAll() {
         List<Work> allWorks = workService.findAll();
-        return allWorks;
+        return  ResponseEntity.ok().body(allWorks);
     }
 
     @GetMapping("/works/{id}")
-    public Work get(@RequestParam Long id) {
+    public ResponseEntity <Work> get(@RequestParam Long id) {
         Work work = workService.findById(id);
-        return work;
+        return   ResponseEntity.ok().body(work);
     }
 
     @PostMapping("/works")
-    public void create(@Valid @RequestBody Work work) {
+    public ResponseEntity <Work> create(@Valid @RequestBody Work work) {
         workService.add(work);
+        return  ResponseEntity.ok().body(work);
     }
 
     @PutMapping("/works/{id}")
-    public void update(@Valid @PathVariable Long id, @RequestBody Work work) {
+    public ResponseEntity <Work> update(@Valid @PathVariable Long id, @RequestBody Work work) {
         workService.edit(id, work);
+        return  ResponseEntity.ok().body(work);
     }
 
     @DeleteMapping("/works/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity <Void> delete(@PathVariable Long id) {
         workService.delete(id);
+        return  ResponseEntity.noContent().build();
     }
 
     //FILTRADO
     @GetMapping("/works/by-musician/{id}")
-    public List<Work> getByMusician(@PathVariable Long id) throws MusicianNotFoundException {
+    public ResponseEntity <List<Work>> getByMusician(@PathVariable Long id) throws MusicianNotFoundException {
         List <Work> worksOfMusician = workService.findByMusician(id);
-        return worksOfMusician;
+        return   ResponseEntity.ok().body(worksOfMusician);
     }
-
 }

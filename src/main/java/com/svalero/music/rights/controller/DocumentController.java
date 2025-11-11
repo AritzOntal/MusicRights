@@ -26,37 +26,40 @@ public class DocumentController {
     }
 
     @GetMapping("/documents")
-    public List<Document> getAll() {
+    public ResponseEntity <List<Document>> getAll() {
         List<Document> documents = documentService.findAll();
-        return documents;
+        return  ResponseEntity.ok().body(documents);
     }
 
     @GetMapping("/documents/{id}")
-    public Document get(@PathVariable Long id) {
+    public ResponseEntity <Document> get(@PathVariable Long id) {
         Document document = documentService.findById(id);
-        return document;
+        return ResponseEntity.ok().body(document);
     }
 
     @PostMapping("/documents")
-    public void create (@RequestBody Document document) {
+    public ResponseEntity <Document> create (@RequestBody Document document) {
         documentService.add(document);
+        return  ResponseEntity.ok().body(document);
     }
 
     @PutMapping("/documents/{id}")
-    public void update (@RequestBody Document document, @PathVariable Long id) {
+    public ResponseEntity <Document> update (@RequestBody Document document, @PathVariable Long id) {
         documentService.edit(id,  document);
+        return  ResponseEntity.ok().body(document);
     }
 
     @DeleteMapping("/documents/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity <Void> delete(@PathVariable Long id) {
         documentService.delete(id);
+        return  ResponseEntity.noContent().build();
     }
 
     //FILTRADOS
     @GetMapping("/documents/by-claim/{id}")
-    public Document getByClaim(@PathVariable Long id) throws ClaimNotFoundException {
+    public ResponseEntity <Document> getByClaim(@PathVariable Long id) throws ClaimNotFoundException {
         Document documentOfClaim = documentService.findByClaim(id);
-        return documentOfClaim;
+        return ResponseEntity.ok().body(documentOfClaim);
     }
 
 }
