@@ -58,16 +58,4 @@ public class ConcertController {
         return concertsOfMusician;
     }
 
-    @ExceptionHandler(ConcertNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleException(ConcertNotFoundException cnfe) {
-        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "El concierto no existe");
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(MusicianNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleException(MusicianNotFoundException mne) {
-        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "El músico no existe");
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    }
-
 }

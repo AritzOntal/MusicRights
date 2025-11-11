@@ -59,16 +59,4 @@ public List<Claim> getByMusician (@PathVariable long id) throws MusicianNotFound
     }
 
 
-    @ExceptionHandler(ClaimNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleException(ClaimNotFoundException cnfe) {
-        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "La reclamación no existe");
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(MusicianNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleException(MusicianNotFoundException mne) {
-        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "El músico no existe");
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    }
-
 }
