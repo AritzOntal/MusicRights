@@ -56,12 +56,13 @@ public class MusicianService {
 
     //FILTRADOS
 
-    public List<Musician> findByMusicianId(long id) {
-        List <Musician> musicians = musicianRepository.findMusicianByWork(id);
+    public List<Musician> findByWorkId(long id) {
+        List <Musician> musicians = musicianRepository.findMusiciansByWork(id);
         return musicians;
     }
 }
 
 //EN ESTA CLASE PROGRAMO PARA LA BASE DE DATOS (CAPA LÓGICA DONDE, ES LO MÁS LIBRE)
+
 
 

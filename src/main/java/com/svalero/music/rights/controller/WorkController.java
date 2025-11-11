@@ -9,15 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class WorkController {
 
-    private final DocumentService documentService;
-    WorkService workService;
+    private final WorkService workService;
 
-    public WorkController(WorkService  workService, DocumentService documentService) {
+    public WorkController(WorkService  workService) {
         this.workService = workService;
-        this.documentService = documentService;
+
     }
 
     @GetMapping("/works")
@@ -50,7 +49,7 @@ public class WorkController {
 
     //FILTRADO
     @GetMapping("/works/by-musician/{id}")
-    public List<Work> getByMuscian(@PathVariable Long id) {
+    public List<Work> getByMusician(@PathVariable Long id) {
         List <Work> worksOfMusician = workService.findByMusician(id);
         return worksOfMusician;
     }

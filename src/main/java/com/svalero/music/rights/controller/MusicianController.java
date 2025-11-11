@@ -48,8 +48,8 @@ public class MusicianController {
 
     //FILTRADOS
     @GetMapping("/musicians/by-work/{id}")
-    public List<Musician> getByMusician(@PathVariable long id) {
-        List <Musician> musiciansOfWorks = musicianService.findByMusicianId(id);
-        return musiciansOfWorks;
+    public List<Musician> getByWork(@PathVariable long id) {
+        List <Musician> musiciansOfWork = musicianService.findByWorkId(id);
+        return musiciansOfWork;
     }
 }

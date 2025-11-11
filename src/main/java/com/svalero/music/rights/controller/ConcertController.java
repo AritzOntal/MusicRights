@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class ConcertController {
 
     private final ConcertService concertService;
@@ -23,7 +23,7 @@ public class ConcertController {
         return concerts;
     }
 
-    @GetMapping("/concerts{id}")
+    @GetMapping("/concerts/{id}")
     public Concert get(long id) {
         Concert concert = concertService.findById(id);
         return concert;
@@ -45,7 +45,7 @@ public class ConcertController {
         concertService.delete(id);
     }
 
-    //FILTRADO
+    //FILTRADO JPQL
     @GetMapping("concerts/by-musician/{id}")
     public List<Concert> getByMusician(@PathVariable Long id) {
         List <Concert> concertsOfMusician = concertService.findAllbyMusicianId(id);

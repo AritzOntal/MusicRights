@@ -14,8 +14,8 @@ import java.util.List;
 @Repository
 public interface MusicianRepository extends JpaRepository<Musician, Long> {
 
-    @Query("SELECT w FROM Work w JOIN w.musicians m WHERE m.id = :id")
-    List<Musician> findMusicianByWork(@Param("id") Long id);
+    @Query("SELECT m FROM Work w JOIN w.musicians m WHERE w.id = :id")
+    List<Musician> findMusiciansByWork(@Param("id") Long id);
 }
 
 //PARA QUE LOS METODOS DEVUELVAN LISTA TIENE QUE SER "JpaRepository" no CrudRepository
