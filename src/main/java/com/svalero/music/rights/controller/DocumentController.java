@@ -59,15 +59,4 @@ public class DocumentController {
         return documentOfClaim;
     }
 
-    @ExceptionHandler(DocumentNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleException(DocumentNotFoundException cnfe) {
-        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "El documento no existe");
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(ClaimNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleException(ClaimNotFoundException cnfe) {
-        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "La reclamación no existe");
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    }
 }

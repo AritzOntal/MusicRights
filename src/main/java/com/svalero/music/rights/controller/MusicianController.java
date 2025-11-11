@@ -58,18 +58,4 @@ public class MusicianController {
         return musiciansOfWork;
     }
 
-    @ExceptionHandler(MusicianNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleException(MusicianNotFoundException cnfe) {
-        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "El músico no existe");
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(WorkNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleException(WorkNotFoundException cnfe) {
-        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "La obra no existe");
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    }
-
-
-
 }
