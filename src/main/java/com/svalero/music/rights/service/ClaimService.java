@@ -2,6 +2,7 @@ package com.svalero.music.rights.service;
 
 
 import com.svalero.music.rights.domain.Claim;
+import com.svalero.music.rights.exception.ClaimNotFoundException;
 import com.svalero.music.rights.repository.ClaimRepository;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +29,9 @@ public class ClaimService {
         return claimRepository.findById(id).orElse(null);
     }
 
-    public Claim update(long id, Claim updatedClaim) {
+    public Claim modify(long id, Claim updatedClaim) throws ClaimNotFoundException {
         Claim claim = claimRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("claim_not_found"));
+                .orElseThrow(ClaimNotFoundException::new);
 
         claim.setType(updatedClaim.getType());
         claim.setDescription(updatedClaim.getDescription());
@@ -41,8 +42,11 @@ public class ClaimService {
         return claim;
     }
 
-    public void delete(long id) {
-        claimRepository.deleteById(id);
+    public void delete(long id) throws ClaimNotFoundException {
+        Claim claim = claimRepository.findById(id)
+                .orElseThrow(ClaimNotFoundException::new);
+
+        claimRepository.delete(claim);
     }
 
     public List <Claim> findByMusicianId(long id) {
