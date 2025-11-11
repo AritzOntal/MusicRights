@@ -11,6 +11,6 @@ public class ErrorResponse {
 
     public int code;
     public String message;
-    public String titlle;
+    public String tittle;
 }
 

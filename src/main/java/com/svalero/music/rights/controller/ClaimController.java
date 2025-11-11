@@ -3,6 +3,7 @@ package com.svalero.music.rights.controller;
 import com.svalero.music.rights.domain.Claim;
 import com.svalero.music.rights.exception.ErrorResponse;
 import com.svalero.music.rights.exception.ClaimNotFoundException;
+import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.repository.ClaimRepository;
 import com.svalero.music.rights.service.ClaimService;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public List<Claim> getAll() {
 }
 
 @GetMapping("/claims/{id}")
-public Claim get(@PathVariable long id) {
+public Claim get(@PathVariable long id) throws ClaimNotFoundException {
         Claim claim = claimService.findById(id);
         return claim;
 }
@@ -52,7 +53,7 @@ public void remove (@PathVariable long id) throws ClaimNotFoundException {
 //FILTRADOS
 
 @GetMapping("/claims/by-musician/{id}")
-public List<Claim> getByMusician (@PathVariable long id) {
+public List<Claim> getByMusician (@PathVariable long id) throws MusicianNotFoundException {
         List<Claim> claimsOfMusician = claimService.findByMusicianId(id);
         return claimsOfMusician;
     }
@@ -63,4 +64,11 @@ public List<Claim> getByMusician (@PathVariable long id) {
         ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "La reclamación no existe");
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(MusicianNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(MusicianNotFoundException mne) {
+        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "El músico no existe");
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
 }

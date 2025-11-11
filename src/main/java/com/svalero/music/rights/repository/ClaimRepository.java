@@ -1,6 +1,7 @@
 package com.svalero.music.rights.repository;
 
 import com.svalero.music.rights.domain.Claim;
+import com.svalero.music.rights.exception.ClaimNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
