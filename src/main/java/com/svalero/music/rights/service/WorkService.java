@@ -2,6 +2,7 @@ package com.svalero.music.rights.service;
 
 import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.domain.Work;
+import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.repository.WorkRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,11 @@ import java.util.List;
 public class WorkService {
 
     private final WorkRepository workRepository;
+    private final MusicianService musicianService;
 
-    public WorkService (WorkRepository workRepository) {
+    public WorkService (WorkRepository workRepository, MusicianService musicianService) {
         this.workRepository = workRepository;
+        this.musicianService = musicianService;
     }
 
     public void add(Work work) {
@@ -31,9 +34,14 @@ public class WorkService {
         return work;
     }
 
-    public List<Work> findByMusician(Long id) {
-        List <Work> works = workRepository.findByMusicianId(id);
-        return works;
+    public List<Work> findByMusician(Long id) throws MusicianNotFoundException {
+        Musician musician = musicianService.findById(id);
+        if (musician == null) {
+            throw new MusicianNotFoundException();
+        } else {
+            List<Work> works = workRepository.findByMusicianId(id);
+            return works;
+        }
     }
 
         public Work edit(long id, Work updateWork) {

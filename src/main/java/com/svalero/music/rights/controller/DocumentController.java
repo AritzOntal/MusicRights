@@ -3,8 +3,14 @@ package com.svalero.music.rights.controller;
 import com.svalero.music.rights.domain.Claim;
 import com.svalero.music.rights.domain.Concert;
 import com.svalero.music.rights.domain.Document;
+import com.svalero.music.rights.exception.ClaimNotFoundException;
+import com.svalero.music.rights.exception.ConcertNotFoundException;
+import com.svalero.music.rights.exception.DocumentNotFoundException;
+import com.svalero.music.rights.exception.ErrorResponse;
 import com.svalero.music.rights.repository.DocumentRepository;
 import com.svalero.music.rights.service.DocumentService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,8 +54,20 @@ public class DocumentController {
 
     //FILTRADOS
     @GetMapping("/documents/by-claim/{id}")
-    public Document getByClaim(@PathVariable Long id){
+    public Document getByClaim(@PathVariable Long id) throws ClaimNotFoundException {
         Document documentOfClaim = documentService.findByClaim(id);
         return documentOfClaim;
+    }
+
+    @ExceptionHandler(DocumentNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(DocumentNotFoundException cnfe) {
+        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "El documento no existe");
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ClaimNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(ClaimNotFoundException cnfe) {
+        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "La reclamación no existe");
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

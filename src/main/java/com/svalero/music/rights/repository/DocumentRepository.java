@@ -16,6 +16,6 @@ import java.util.List;
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Long> {
 
-    @Query ("SELECT d FROM Document d JOIN d.claim c WHERE c.id = :id")
+    @Query ("SELECT c FROM Document d JOIN d.claim c WHERE c.id = :id")
     Document findByClaimId(@Param ("id") Long claimId);
 }

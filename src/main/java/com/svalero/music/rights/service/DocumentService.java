@@ -3,6 +3,9 @@ package com.svalero.music.rights.service;
 import com.svalero.music.rights.domain.Claim;
 import com.svalero.music.rights.domain.Document;
 import com.svalero.music.rights.domain.Musician;
+import com.svalero.music.rights.exception.ClaimNotFoundException;
+import com.svalero.music.rights.exception.DocumentNotFoundException;
+import com.svalero.music.rights.repository.ClaimRepository;
 import com.svalero.music.rights.repository.DocumentRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +15,13 @@ import java.util.List;
 public class DocumentService {
 
     private final DocumentRepository documentRepository;
+    private final ClaimRepository claimRepository;
+    private final ClaimService claimService;
 
-    public DocumentService(DocumentRepository documentRepository) {
+    public DocumentService(DocumentRepository documentRepository, ClaimRepository claimRepository, ClaimService claimService) {
         this.documentRepository = documentRepository;
+        this.claimRepository = claimRepository;
+        this.claimService = claimService;
     }
 
     public void add(Document document) {
@@ -30,7 +37,11 @@ public class DocumentService {
         return documentRepository.findById(id).orElseThrow(() -> new RuntimeException("document_not_found"));
     }
 
-    public Document findByClaim(Long id) {
+    public Document findByClaim(Long id) throws ClaimNotFoundException {
+        Claim claim = claimService.findById(id);
+        if (claim == null) {
+            throw (new ClaimNotFoundException());
+        }
         return documentRepository.findByClaimId(id);
     }
     //LISTA DE DOCUMENTOS ASOCIADOS A UN CLAIM

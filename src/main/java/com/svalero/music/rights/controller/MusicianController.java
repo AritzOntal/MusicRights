@@ -2,8 +2,14 @@ package com.svalero.music.rights.controller;
 
 import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.domain.Work;
+import com.svalero.music.rights.exception.DocumentNotFoundException;
+import com.svalero.music.rights.exception.ErrorResponse;
+import com.svalero.music.rights.exception.MusicianNotFoundException;
+import com.svalero.music.rights.exception.WorkNotFoundException;
 import com.svalero.music.rights.service.MusicianService;
 import com.svalero.music.rights.service.WorkService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,11 +51,25 @@ public class MusicianController {
         musicianService.delete(id);
     }
 
-
     //FILTRADOS
     @GetMapping("/musicians/by-work/{id}")
-    public List<Musician> getByWork(@PathVariable long id) {
+    public List<Musician> getByWork(@PathVariable long id) throws WorkNotFoundException {
         List <Musician> musiciansOfWork = musicianService.findByWorkId(id);
         return musiciansOfWork;
     }
+
+    @ExceptionHandler(MusicianNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(MusicianNotFoundException cnfe) {
+        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "El músico no existe");
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(WorkNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(WorkNotFoundException cnfe) {
+        ErrorResponse errorResponse = new ErrorResponse(404, "Not-found", "La obra no existe");
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+
+
 }
