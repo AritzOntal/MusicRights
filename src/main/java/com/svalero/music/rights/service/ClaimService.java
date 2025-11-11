@@ -2,8 +2,11 @@ package com.svalero.music.rights.service;
 
 
 import com.svalero.music.rights.domain.Claim;
+import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.exception.ClaimNotFoundException;
+import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.repository.ClaimRepository;
+import com.svalero.music.rights.repository.MusicianRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,10 +14,12 @@ import java.util.List;
 @Service
 public class ClaimService {
 
-    ClaimRepository claimRepository;
+    private final MusicianService musicianService;
+    private ClaimRepository claimRepository;
 
-    public ClaimService (ClaimRepository claimRepository) {
+    public ClaimService (ClaimRepository claimRepository, MusicianService musicianService) {
         this.claimRepository = claimRepository;
+        this.musicianService = musicianService;
     }
 
     public Claim add(Claim claim) {
@@ -25,8 +30,10 @@ public class ClaimService {
         return claimRepository.findAll();
     }
 
-    public Claim findById(Long id) {
-        return claimRepository.findById(id).orElse(null);
+    public Claim findById(Long id) throws ClaimNotFoundException {
+        Claim claim = claimRepository.findById(id)
+                .orElseThrow(ClaimNotFoundException::new);
+        return claim;
     }
 
     public Claim modify(long id, Claim updatedClaim) throws ClaimNotFoundException {
@@ -49,9 +56,13 @@ public class ClaimService {
         claimRepository.delete(claim);
     }
 
-    public List <Claim> findByMusicianId(long id) {
-        List <Claim> claims = claimRepository.findByMusicianId(id);
-        return claims;
+    public List <Claim> findByMusicianId(long id) throws MusicianNotFoundException {
+        Musician musician = musicianService.findById(id);
+        if (musician == null) {
+            throw new MusicianNotFoundException();
+        } else {
+            List<Claim> claims = claimRepository.findByMusicianId(id);
+            return claims;
+        }
     }
-
 }
