@@ -1,6 +1,7 @@
 package com.svalero.music.rights.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,7 @@ public class Musician {
     @Positive
     @Column
     private float performanceFee;
+
     @Column (name = "affiliated_number")
     private long affiliatedNumber;
     // RELACIONAR CON UNA LISTA DE WORKS POR MUSICO (List<Work)

@@ -3,6 +3,8 @@ package com.svalero.music.rights.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -37,11 +39,22 @@ public class GlobalExceptionHandler {
         return notFound("El concierto no existe");
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException manve) {
+        return badRequest("Error de validación");
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ErrorResponse> handleMethodMessageNotValid(HttpMessageNotReadableException hmnre) {
+        return badRequest("Error en los campos");
+    }
+
+    //500 PARA EL RESTO
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex) {
         ErrorResponse body = new ErrorResponse(
                 500,
-                "Bad request",
+                "Error inesperado",
                 "Ha ocurrido un error inesperado"
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
@@ -52,5 +65,12 @@ public class GlobalExceptionHandler {
         ErrorResponse body = new ErrorResponse(404, "Not-found", message);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
+
+    private ResponseEntity<ErrorResponse> badRequest(String message) {
+        ErrorResponse body = new ErrorResponse(400, "bad-request", message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
+    //TODO SACAR MESSAGES DE LAS VALIDACIONES PARA MOSTRARLOS EN LOS 400 (BAD REQUEST)
 
 }
