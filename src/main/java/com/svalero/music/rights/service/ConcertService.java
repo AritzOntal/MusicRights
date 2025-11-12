@@ -32,6 +32,11 @@ public class ConcertService {
         return concertRepository.findById(id).get();
     }
 
+    public List<Concert> findByParameters(String city, String status, Boolean performed) {
+        List<Concert> concerts = concertRepository.findByCityAndStatusAndPerformed(city, status, performed);
+        return concerts;
+    }
+
     public List<Concert> findAllbyMusicianId(Long id) {
         List<Concert> allConcerts = concertRepository.findByMusicianId(id);
         return allConcerts;
