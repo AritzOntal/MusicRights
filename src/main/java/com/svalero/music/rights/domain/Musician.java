@@ -46,8 +46,6 @@ public class Musician {
     private float performanceFee;
     @Column (name = "affiliated_number")
     private long affiliatedNumber;
-
-
     // RELACIONAR CON UNA LISTA DE WORKS POR MUSICO (List<Work)
     //NO VUELVO A CREAR LA TABLA, UTIULIZO MAPPEDBY
     @ManyToMany(mappedBy = "musicians")

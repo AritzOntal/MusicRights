@@ -8,6 +8,7 @@ import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.exception.WorkNotFoundException;
 import com.svalero.music.rights.service.MusicianService;
 import com.svalero.music.rights.service.WorkService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,13 +38,13 @@ public class MusicianController {
     }
 
     @PostMapping("/musicians")
-    public ResponseEntity <Musician> create(@RequestBody Musician musician) {
+    public ResponseEntity <Musician> create(@Valid @RequestBody Musician musician) {
         musicianService.add(musician);
         return  ResponseEntity.status(HttpStatus.CREATED).body(musician);
     }
 
     @PutMapping("/musicians/{id}")
-    public ResponseEntity <Musician> edit(@PathVariable long id, @RequestBody Musician musician) {
+    public ResponseEntity <Musician> edit(@Valid @PathVariable long id, @RequestBody Musician musician) {
         musicianService.edit(id, musician);
         return  ResponseEntity.ok().body(musician);
     }
