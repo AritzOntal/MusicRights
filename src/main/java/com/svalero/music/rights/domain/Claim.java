@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table (name = "claims")
+@Table(name = "claims")
 
 public class Claim {
 
@@ -23,7 +23,7 @@ public class Claim {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull (message = "La referencia no puede ser nula")
+    @NotNull(message = "La referencia no puede ser nula")
     @Column
     private String reference;
 
@@ -47,7 +47,7 @@ public class Claim {
     private float priorityLeve;*/
 
     @ManyToOne
-    @JoinColumn (name = "musician_id")
+    @JoinColumn(name = "musician_id")
     private Musician musician;
 
 }

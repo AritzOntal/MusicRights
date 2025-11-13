@@ -21,59 +21,48 @@ public class WorkController {
 
     private final WorkService workService;
 
-    public WorkController(WorkService  workService) {
+    public WorkController(WorkService workService) {
         this.workService = workService;
 
     }
 
     @GetMapping("/works")
-        public ResponseEntity <List<Work>> getAll(
-            @RequestParam(value = "duration", defaultValue = "") Float duration,
-            @RequestParam(value = "composedAt", defaultValue = "") LocalDate composedAt,
-            @RequestParam(value = "registred", defaultValue = "") Boolean registred
+    public ResponseEntity<List<Work>> getAll(
+            @RequestParam(value = "duration", required = false) Float duration,
+            @RequestParam(value = "composedAt", required = false) LocalDate composedAt,
+            @RequestParam(value = "registred", required = false) Boolean registred
     ) {
-        List<Work> works;
-
-        if (duration != null & composedAt != null & registred != null) {
-
-            works = workService.findByParameters(duration, composedAt, registred);
-
-            return new ResponseEntity<>(works, HttpStatus.OK);
-
-        } else {
-            works = workService.findAll();
-            return ResponseEntity.ok().body(works);
-        }
+        return workService.findAll(duration, composedAt, registred);
     }
 
     @GetMapping("/works/{id}")
-    public ResponseEntity <Work> get(@RequestParam Long id) {
+    public ResponseEntity<Work> get(@RequestParam Long id) {
         Work work = workService.findById(id);
-        return   ResponseEntity.ok().body(work);
+        return ResponseEntity.ok().body(work);
     }
 
     @PostMapping("/works")
-    public ResponseEntity <Work> create(@Valid @RequestBody Work work) {
+    public ResponseEntity<Work> create(@Valid @RequestBody Work work) {
         workService.add(work);
-        return  ResponseEntity.ok().body(work);
+        return ResponseEntity.ok().body(work);
     }
 
     @PutMapping("/works/{id}")
-    public ResponseEntity <Work> update(@Valid @PathVariable Long id, @RequestBody Work work) {
+    public ResponseEntity<Work> update(@Valid @PathVariable Long id, @RequestBody Work work) {
         workService.edit(id, work);
-        return  ResponseEntity.ok().body(work);
+        return ResponseEntity.ok().body(work);
     }
 
     @DeleteMapping("/works/{id}")
-    public ResponseEntity <Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         workService.delete(id);
-        return  ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();
     }
 
     //FILTRADO
     @GetMapping("/works/by-musician/{id}")
-    public ResponseEntity <List<Work>> getByMusician(@PathVariable Long id) throws MusicianNotFoundException {
-        List <Work> worksOfMusician = workService.findByMusician(id);
-        return   ResponseEntity.ok().body(worksOfMusician);
+    public ResponseEntity<List<Work>> getByMusician(@PathVariable Long id) throws MusicianNotFoundException {
+        List<Work> worksOfMusician = workService.findByMusician(id);
+        return ResponseEntity.ok().body(worksOfMusician);
     }
 }

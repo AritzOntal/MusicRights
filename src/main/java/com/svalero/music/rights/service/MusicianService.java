@@ -7,6 +7,8 @@ import com.svalero.music.rights.exception.WorkNotFoundException;
 import com.svalero.music.rights.repository.MusicianRepository;
 import com.svalero.music.rights.repository.WorkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -29,9 +31,17 @@ public class MusicianService {
         musicianRepository.save(musician);
     }
 
-    public List<Musician> findALl() {
-        List<Musician> allMusicians = musicianRepository.findAll();
-        return allMusicians;
+    public ResponseEntity<List<Musician>> findAll(Float performanceFee, Boolean affiliated, LocalDate birthDate) {
+        List<Musician> musician;
+
+        if (performanceFee != null && affiliated != null && birthDate != null) {
+            musician = musicianRepository.findByPerformanceFeeAndAffiliatedAndBirthDate(performanceFee, affiliated, birthDate);
+            return new ResponseEntity<>(musician, HttpStatus.OK);
+
+        } else {
+            musician = musicianRepository.findAll();
+            return new ResponseEntity<>(musician, HttpStatus.OK);
+        }
     }
 
     public Musician findById(Long id) {
@@ -42,7 +52,7 @@ public class MusicianService {
 
     public Musician edit(long id, Musician updatedMusician) {
         Musician musician = musicianRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("musician_not_found"));
+                .orElseThrow(() -> new RuntimeException("musician_not_found"));
 
         musician.setFirstName(updatedMusician.getFirstName());
         musician.setLastName(updatedMusician.getLastName());
@@ -64,16 +74,9 @@ public class MusicianService {
         workRepository.findById(workId)
                 .orElseThrow(WorkNotFoundException::new);
 
-            List<Musician> musicians = musicianRepository.findMusiciansByWork(workId);
-            return musicians;
-        }
-
-
-    public List<Musician> findByParameters (float performanceFee, Boolean affiliated, LocalDate birthDate) {
-        List<Musician> musicians = musicianRepository.findByPerformanceFeeAndAffiliatedAndBirthDate(performanceFee, affiliated, birthDate);
+        List<Musician> musicians = musicianRepository.findMusiciansByWork(workId);
         return musicians;
     }
-
 }
 
 //EN ESTA CLASE PROGRAMO PARA LA BASE DE DATOS (CAPA LÓGICA DONDE, ES LO MÁS LIBRE)

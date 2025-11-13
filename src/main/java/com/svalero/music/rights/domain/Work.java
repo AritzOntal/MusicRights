@@ -44,7 +44,7 @@ public class Work {
     @Column
     private LocalDateTime composedAt;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private boolean registred;
 
 

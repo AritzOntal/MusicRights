@@ -7,6 +7,8 @@ import com.svalero.music.rights.exception.ClaimNotFoundException;
 import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.repository.ClaimRepository;
 import com.svalero.music.rights.repository.MusicianRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +19,7 @@ public class ClaimService {
     private final MusicianService musicianService;
     private ClaimRepository claimRepository;
 
-    public ClaimService (ClaimRepository claimRepository, MusicianService musicianService) {
+    public ClaimService(ClaimRepository claimRepository, MusicianService musicianService) {
         this.claimRepository = claimRepository;
         this.musicianService = musicianService;
     }
@@ -26,8 +28,19 @@ public class ClaimService {
         return claimRepository.save(claim);
     }
 
-    public List<Claim> findAll() {
-        return claimRepository.findAll();
+    public ResponseEntity<List<Claim>> findAll(String status, String type, Boolean pending) {
+
+        List<Claim> claims;
+
+        if (pending != null & (status != null && !status.isBlank()) & (type != null && !type.isBlank())) {
+
+            claims = claimRepository.findByStatusAndTypeAndPending(status, type, pending);
+            return new ResponseEntity<>(claims, HttpStatus.OK);
+
+        } else {
+            claims = claimRepository.findAll();
+            return new ResponseEntity<>(claims, HttpStatus.OK);
+        }
     }
 
     public Claim findById(Long id) throws ClaimNotFoundException {
@@ -57,7 +70,7 @@ public class ClaimService {
     }
 
     //FILTRADOS
-    public List <Claim> findByMusicianId(long id) throws MusicianNotFoundException {
+    public List<Claim> findByMusicianId(long id) throws MusicianNotFoundException {
         Musician musician = musicianService.findById(id);
         if (musician == null) {
             throw new MusicianNotFoundException();
@@ -65,10 +78,5 @@ public class ClaimService {
             List<Claim> claims = claimRepository.findByMusicianId(id);
             return claims;
         }
-    }
-
-    public List <Claim> findByStatusTypePending(String status, String type, Boolean pending) {
-        List <Claim> claims = claimRepository.findByStatusAndTypeAndPending(status, type, pending);
-        return claims;
     }
 }

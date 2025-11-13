@@ -4,6 +4,8 @@ import com.svalero.music.rights.domain.Concert;
 import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.repository.ConcertRepository;
 import com.svalero.music.rights.repository.MusicianRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,20 +23,23 @@ public class ConcertService {
         concertRepository.save(concert);
     }
 
-    public List<Concert> findAll() {
-        List<Concert> concerts = concertRepository.findAll();
-        return concerts;
+    public ResponseEntity<List<Concert>> findAll(String city, String status, Boolean performed) {
+        List<Concert> concerts;
+
+        if ((city != null && !city.isBlank()) & (status != null && !status.isBlank()) & (performed != null)) {
+            concerts = concertRepository.findByCityAndStatusAndPerformed(city, status, performed);
+            return new ResponseEntity<>(concerts, HttpStatus.OK);
+
+        } else {
+            concerts = concertRepository.findAll();
+            return new ResponseEntity<>(concerts, HttpStatus.OK);
+        }
     }
 
     public Concert findById(long id) {
         concertRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("concert_not_found"));
         return concertRepository.findById(id).get();
-    }
-
-    public List<Concert> findByParameters(String city, String status, Boolean performed) {
-        List<Concert> concerts = concertRepository.findByCityAndStatusAndPerformed(city, status, performed);
-        return concerts;
     }
 
     public List<Concert> findAllbyMusicianId(Long id) {
@@ -61,15 +66,6 @@ public class ConcertService {
     public void delete(long id) {
         concertRepository.deleteById(id);
     }
-
-
-
-
-
-
-
-
-
 
 
 }

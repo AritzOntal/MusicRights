@@ -4,6 +4,8 @@ import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.domain.Work;
 import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.repository.WorkRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,7 +17,7 @@ public class WorkService {
     private final WorkRepository workRepository;
     private final MusicianService musicianService;
 
-    public WorkService (WorkRepository workRepository, MusicianService musicianService) {
+    public WorkService(WorkRepository workRepository, MusicianService musicianService) {
         this.workRepository = workRepository;
         this.musicianService = musicianService;
     }
@@ -24,9 +26,18 @@ public class WorkService {
         workRepository.save(work);
     }
 
-    public List<Work> findAll() {
-        List <Work> work = workRepository.findAll();
-        return work;
+    public ResponseEntity<List<Work>> findAll(Float duration, LocalDate composedAt, Boolean registred) {
+
+        List<Work> works;
+
+        if (duration != null & composedAt != null & registred != null) {
+            works = workRepository.findByDurationAndComposedAtAndRegistred(duration, composedAt, registred);
+            return new ResponseEntity<>(works, HttpStatus.OK);
+
+        } else {
+            works = workRepository.findAll();
+            return new ResponseEntity<>(works, HttpStatus.OK);
+        }
     }
 
     public Work findById(Long id) {
@@ -45,12 +56,7 @@ public class WorkService {
         }
     }
 
-    public List<Work> findByParameters(Float duration, LocalDate composedAt, Boolean registred){
-        List<Work> works = workRepository.findByDurationAndComposedAtAndRegistred(duration, composedAt, registred);
-        return works;
-    }
-
-        public Work edit(long id, Work updateWork) {
+    public Work edit(long id, Work updateWork) {
         Work work = findById(id);
 
         work.setDuration(updateWork.getDuration());

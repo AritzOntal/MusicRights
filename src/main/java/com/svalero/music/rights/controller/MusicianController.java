@@ -27,58 +27,45 @@ public class MusicianController {
         this.musicianService = musicianService;
     }
 
-        @GetMapping("/musicians")
-        public ResponseEntity<List<Musician>> getALl(
-                @RequestParam(value = "performanceFee", defaultValue = "") Float performanceFee,
-                @RequestParam(value = "affiliated", defaultValue = "") Boolean affiliated,
-                @RequestParam(value = "birthDate", defaultValue = "") LocalDate birthDate
-                ) {
-
-            List<Musician> musician;
-
-            if (performanceFee != null && affiliated != null && birthDate != null) {
-
-                musician = musicianService.findByParameters(performanceFee, affiliated, birthDate);
-
-                return new ResponseEntity<>(musician, HttpStatus.OK);
-
-            } else {
-
-                musician = musicianService.findALl();
-                return ResponseEntity.ok().body(musician);
-            }
-        }
+    @GetMapping("/musicians")
+    public ResponseEntity<List<Musician>> getALl(
+            @RequestParam(value = "performanceFee", required = false) Float performanceFee,
+            @RequestParam(value = "affiliated", required = false) Boolean affiliated,
+            @RequestParam(value = "birthDate", required = false) LocalDate birthDate
+    ) {
+        return musicianService.findAll(performanceFee, affiliated, birthDate);
+    }
 
     @GetMapping("/musicians/{id}")
-    public ResponseEntity <Musician> get(@PathVariable Long id) {
-        Musician musician =  musicianService.findById(id);
-        return  ResponseEntity.ok().body(musician);
+    public ResponseEntity<Musician> get(@PathVariable Long id) {
+        Musician musician = musicianService.findById(id);
+        return ResponseEntity.ok().body(musician);
     }
 
     //TODO COMPROBAR QUE NO EXISTA OTRO MUSICO CON EL MISMO DNI
     //TODO VALIDACIONES
     @PostMapping("/musicians")
-    public ResponseEntity <Musician> create(@Valid @RequestBody Musician musician) {
+    public ResponseEntity<Musician> create(@Valid @RequestBody Musician musician) {
         musicianService.add(musician);
-        return  ResponseEntity.status(HttpStatus.CREATED).body(musician);
+        return ResponseEntity.status(HttpStatus.CREATED).body(musician);
     }
 
     @PutMapping("/musicians/{id}")
-    public ResponseEntity <Musician> edit(@Valid @PathVariable long id, @RequestBody Musician musician) {
+    public ResponseEntity<Musician> edit(@Valid @PathVariable long id, @RequestBody Musician musician) {
         musicianService.edit(id, musician);
-        return  ResponseEntity.ok().body(musician);
+        return ResponseEntity.ok().body(musician);
     }
 
     @DeleteMapping("/musicians/{id}")
-    public ResponseEntity <Void> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         musicianService.delete(id);
-        return  ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();
     }
 
     //FILTRADOS
     @GetMapping("/musicians/by-work/{id}")
-    public ResponseEntity <List<Musician>> getByWork(@PathVariable long id) throws WorkNotFoundException {
-        List <Musician> musiciansOfWork = musicianService.findByWorkId(id);
-        return  ResponseEntity.ok().body(musiciansOfWork);
+    public ResponseEntity<List<Musician>> getByWork(@PathVariable long id) throws WorkNotFoundException {
+        List<Musician> musiciansOfWork = musicianService.findByWorkId(id);
+        return ResponseEntity.ok().body(musiciansOfWork);
     }
 }

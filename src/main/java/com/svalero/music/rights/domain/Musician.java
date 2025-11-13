@@ -23,16 +23,16 @@ public class Musician {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (name = "first_name")
+    @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
 
-    @Column (name = "birth_date")
+    @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private boolean affiliated;
 
     @Pattern(
@@ -46,7 +46,7 @@ public class Musician {
     @Column
     private float performanceFee;
 
-    @Column (name = "affiliated_number")
+    @Column(name = "affiliated_number")
     private long affiliatedNumber;
     // RELACIONAR CON UNA LISTA DE WORKS POR MUSICO (List<Work)
     //NO VUELVO A CREAR LA TABLA, UTIULIZO MAPPEDBY
@@ -54,5 +54,5 @@ public class Musician {
     private List<Work> works;
 
     @OneToMany(mappedBy = "musician")
-    private List <Claim> claims;
+    private List<Claim> claims;
 }

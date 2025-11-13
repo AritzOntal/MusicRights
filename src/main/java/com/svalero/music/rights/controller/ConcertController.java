@@ -26,23 +26,12 @@ public class ConcertController {
 
     @GetMapping("/concerts")
     public ResponseEntity<List<Concert>> getAll(
-        @RequestParam(value = "city", defaultValue = "") String city,
-        @RequestParam(value = "status", defaultValue = "") String status,
-        @RequestParam(value = "performed", defaultValue = "") Boolean performed
+            @RequestParam(value = "city", required = false) String city,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "performed", required = false) Boolean performed
     ) {
-            List<Concert> concert;
-
-            if ((city != null && !city.isBlank()) & (status != null && !status.isBlank()) & (performed != null)) {
-                concert = concertService.findByParameters(city, status, performed);
-
-                return new ResponseEntity<>(concert, HttpStatus.OK);
-
-            } else {
-                concert = concertService.findAll();
-                return ResponseEntity.ok().body(concert);
-            }
+        return concertService.findAll(city, status, performed);
     }
-
 
     @GetMapping("/concerts/{id}")
     public ResponseEntity<Concert> get(long id) {
