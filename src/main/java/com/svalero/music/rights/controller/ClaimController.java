@@ -49,6 +49,7 @@ public ResponseEntity <Claim> get(@PathVariable long id) throws ClaimNotFoundExc
 }
 
 @PostMapping("/claims")
+
 public ResponseEntity <Claim> create (@RequestBody Claim claim) {
         claimService.add(claim);
         return ResponseEntity.status(HttpStatus.CREATED).body(claim);

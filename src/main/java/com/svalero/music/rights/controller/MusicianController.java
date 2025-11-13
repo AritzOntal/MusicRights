@@ -55,6 +55,8 @@ public class MusicianController {
         return  ResponseEntity.ok().body(musician);
     }
 
+    //TODO COMPROBAR QUE NO EXISTA OTRO MUSICO CON EL MISMO DNI
+    //TODO VALIDACIONES
     @PostMapping("/musicians")
     public ResponseEntity <Musician> create(@Valid @RequestBody Musician musician) {
         musicianService.add(musician);
