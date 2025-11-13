@@ -28,9 +28,9 @@ public class WorkController {
 
     @GetMapping("/works")
         public ResponseEntity <List<Work>> getAll(
-            @RequestParam(value = "duration", defaultValue = "") Float duration,
-            @RequestParam(value = "composedAt", defaultValue = "") LocalDate composedAt,
-            @RequestParam(value = "registred", defaultValue = "") Boolean registred
+            @RequestParam(value = "duration", required = false) Float duration,
+            @RequestParam(value = "composedAt", required = false) LocalDate composedAt,
+            @RequestParam(value = "registred", required = false) Boolean registred
     ) {
         List<Work> works;
 

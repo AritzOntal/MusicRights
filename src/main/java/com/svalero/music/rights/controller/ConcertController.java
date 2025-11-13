@@ -26,9 +26,9 @@ public class ConcertController {
 
     @GetMapping("/concerts")
     public ResponseEntity<List<Concert>> getAll(
-        @RequestParam(value = "city", defaultValue = "") String city,
-        @RequestParam(value = "status", defaultValue = "") String status,
-        @RequestParam(value = "performed", defaultValue = "") Boolean performed
+        @RequestParam(value = "city", required = false) String city,
+        @RequestParam(value = "status", required = false) String status,
+        @RequestParam(value = "performed", required = false) Boolean performed
     ) {
             List<Concert> concert;
 

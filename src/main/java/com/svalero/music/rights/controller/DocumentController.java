@@ -28,9 +28,9 @@ public class DocumentController {
 
     @GetMapping("/documents")
     public ResponseEntity <List<Document>> getAll(
-            @RequestParam(value = "type", defaultValue = "") String type,
-            @RequestParam(value = "complete", defaultValue = "") Boolean complete,
-            @RequestParam(value = "createAd", defaultValue = "") LocalDate createAd
+            @RequestParam(value = "type", required = false) String type,
+            @RequestParam(value = "complete", required = false) Boolean complete,
+            @RequestParam(value = "createAd", required = false) LocalDate createAd
             ) {
         List<Document> concerts;
 

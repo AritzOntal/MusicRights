@@ -29,9 +29,9 @@ public class MusicianController {
 
         @GetMapping("/musicians")
         public ResponseEntity<List<Musician>> getALl(
-                @RequestParam(value = "performanceFee", defaultValue = "") Float performanceFee,
-                @RequestParam(value = "affiliated", defaultValue = "") Boolean affiliated,
-                @RequestParam(value = "birthDate", defaultValue = "") LocalDate birthDate
+                @RequestParam(value = "performanceFee", required = false) Float performanceFee,
+                @RequestParam(value = "affiliated", required = false) Boolean affiliated,
+                @RequestParam(value = "birthDate", required = false) LocalDate birthDate
                 ) {
 
             List<Musician> musician;
