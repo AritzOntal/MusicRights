@@ -79,9 +79,4 @@ public class ClaimService {
             return claims;
         }
     }
-
-    public List <Claim> findByStatusTypePending(String status, String type, Boolean pending) {
-        List <Claim> claims = claimRepository.findByStatusAndTypeAndPending(status, type, pending);
-        return claims;
-    }
 }
