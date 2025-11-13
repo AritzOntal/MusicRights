@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 //TODO HACER LA CONSULTA RELACION JOIN
@@ -18,4 +20,6 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
 
     @Query ("SELECT c FROM Document d JOIN d.claim c WHERE c.id = :id")
     Document findByClaimId(@Param ("id") Long claimId);
+
+    List <Document> findByTypeAndCompleteAndCreateAt(String type, Boolean complete, LocalDate createAt);
 }

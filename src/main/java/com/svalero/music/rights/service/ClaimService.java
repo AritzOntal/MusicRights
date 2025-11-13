@@ -56,6 +56,7 @@ public class ClaimService {
         claimRepository.delete(claim);
     }
 
+    //FILTRADOS
     public List <Claim> findByMusicianId(long id) throws MusicianNotFoundException {
         Musician musician = musicianService.findById(id);
         if (musician == null) {
@@ -64,5 +65,10 @@ public class ClaimService {
             List<Claim> claims = claimRepository.findByMusicianId(id);
             return claims;
         }
+    }
+
+    public List <Claim> findByStatusTypePending(String status, String type, Boolean pending) {
+        List <Claim> claims = claimRepository.findByStatusAndTypeAndPending(status, type, pending);
+        return claims;
     }
 }

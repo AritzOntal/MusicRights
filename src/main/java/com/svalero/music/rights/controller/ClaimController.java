@@ -23,11 +23,24 @@ public class ClaimController {
         this.claimService = claimService;
     }
 
-@GetMapping("/claims")
-public ResponseEntity <List<Claim>> getAll() {
-        List<Claim> claim = claimService.findAll();
-        return ResponseEntity.ok().body(claim);
-}
+    @GetMapping("/claims")
+    public ResponseEntity<List<Claim>> getAll(
+            @RequestParam(value = "pending", defaultValue = "") Boolean pending,
+            @RequestParam(value = "status", defaultValue = "") String status,
+            @RequestParam(value = "type", defaultValue = "") String type
+    ) {
+        List<Claim> claim;
+
+        if (pending != null & (status != null && !status.isBlank()) & (type != null && !type.isBlank())) {
+            claim = claimService.findByStatusTypePending(status, type, pending);
+
+            return new ResponseEntity<>(claim, HttpStatus.OK);
+
+        } else {
+            claim = claimService.findAll();
+            return ResponseEntity.ok().body(claim);
+        }
+    }
 
 @GetMapping("/claims/{id}")
 public ResponseEntity <Claim> get(@PathVariable long id) throws ClaimNotFoundException {

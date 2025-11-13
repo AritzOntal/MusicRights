@@ -1,5 +1,6 @@
 package com.svalero.music.rights.controller;
 
+import com.svalero.music.rights.domain.Claim;
 import com.svalero.music.rights.domain.Concert;
 import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.exception.ClaimNotFoundException;
@@ -24,10 +25,24 @@ public class ConcertController {
     }
 
     @GetMapping("/concerts")
-    public ResponseEntity<List<Concert>> getAll() {
-        List<Concert> concerts = concertService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(concerts);
+    public ResponseEntity<List<Concert>> getAll(
+        @RequestParam(value = "city", defaultValue = "") String city,
+        @RequestParam(value = "status", defaultValue = "") String status,
+        @RequestParam(value = "performed", defaultValue = "") Boolean performed
+    ) {
+            List<Concert> concert;
+
+            if ((city != null && !city.isBlank()) & (status != null && !status.isBlank()) & (performed != null)) {
+                concert = concertService.findByParameters(city, status, performed);
+
+                return new ResponseEntity<>(concert, HttpStatus.OK);
+
+            } else {
+                concert = concertService.findAll();
+                return ResponseEntity.ok().body(concert);
+            }
     }
+
 
     @GetMapping("/concerts/{id}")
     public ResponseEntity<Concert> get(long id) {

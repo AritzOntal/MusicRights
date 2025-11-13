@@ -9,6 +9,7 @@ import com.svalero.music.rights.repository.ClaimRepository;
 import com.svalero.music.rights.repository.DocumentRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -43,6 +44,11 @@ public class DocumentService {
             throw (new ClaimNotFoundException());
         }
         return documentRepository.findByClaimId(id);
+    }
+
+    public List<Document> findByParameters(String type, Boolean complete, LocalDate createAd) {
+        documentRepository.findByTypeAndCompleteAndCreateAt(type, complete, createAd);
+        return documentRepository.findAll();
     }
     //LISTA DE DOCUMENTOS ASOCIADOS A UN CLAIM
 

@@ -6,6 +6,7 @@ import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.repository.WorkRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -42,6 +43,11 @@ public class WorkService {
             List<Work> works = workRepository.findByMusicianId(id);
             return works;
         }
+    }
+
+    public List<Work> findByParameters(Float duration, LocalDate composedAt, Boolean registred){
+        List<Work> works = workRepository.findByDurationAndComposedAtAndRegistred(duration, composedAt, registred);
+        return works;
     }
 
         public Work edit(long id, Work updateWork) {

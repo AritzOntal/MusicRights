@@ -13,5 +13,8 @@ import java.util.List;
 public interface ClaimRepository extends JpaRepository<Claim, Long> {
 
     @Query ("SELECT c FROM Claim c JOIN c.musician m WHERE m.id = :id")
+
     List <Claim> findByMusicianId(@Param("id") long id);
+
+    List <Claim> findByStatusAndTypeAndPending(String status, String type, Boolean pending);
 }

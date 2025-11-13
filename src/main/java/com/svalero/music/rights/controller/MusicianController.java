@@ -1,5 +1,6 @@
 package com.svalero.music.rights.controller;
 
+import com.svalero.music.rights.domain.Claim;
 import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.domain.Work;
 import com.svalero.music.rights.exception.DocumentNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -25,11 +27,27 @@ public class MusicianController {
         this.musicianService = musicianService;
     }
 
-    @GetMapping("/musicians")
-    public ResponseEntity<List<Musician>> getALl() {
-        List<Musician> allMusicians = musicianService.findALl();
-        return  ResponseEntity.ok().body(allMusicians);
-    }
+        @GetMapping("/musicians")
+        public ResponseEntity<List<Musician>> getALl(
+                @RequestParam(value = "performanceFee", defaultValue = "") Float performanceFee,
+                @RequestParam(value = "affiliated", defaultValue = "") Boolean affiliated,
+                @RequestParam(value = "birthDate", defaultValue = "") LocalDate birthDate
+                ) {
+
+            List<Musician> musician;
+
+            if (performanceFee != null && affiliated != null && birthDate != null) {
+
+                musician = musicianService.findByParameters(performanceFee, affiliated, birthDate);
+
+                return new ResponseEntity<>(musician, HttpStatus.OK);
+
+            } else {
+
+                musician = musicianService.findALl();
+                return ResponseEntity.ok().body(musician);
+            }
+        }
 
     @GetMapping("/musicians/{id}")
     public ResponseEntity <Musician> get(@PathVariable Long id) {
