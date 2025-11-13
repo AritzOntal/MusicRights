@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,6 +20,6 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
 
     List<Work> findByMusicianId(@Param ("id")Long musicianId);
 
-    List<Work> findByDurationAndComposedAtAndRegistred(float duration, LocalDateTime composedAt, Boolean registred);
+    List<Work> findByDurationAndComposedAtAndRegistred(Float duration, LocalDate composedAt, Boolean registred);
 
 }

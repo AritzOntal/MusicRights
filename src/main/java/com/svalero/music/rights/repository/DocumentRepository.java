@@ -21,5 +21,5 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     @Query ("SELECT c FROM Document d JOIN d.claim c WHERE c.id = :id")
     Document findByClaimId(@Param ("id") Long claimId);
 
-    List <Document> findByFilenameAndCompleteAndCreateAt(String filename, Boolean complete, LocalDate createAt);
+    List <Document> findByTypeAndCompleteAndCreateAt(String type, Boolean complete, LocalDate createAt);
 }

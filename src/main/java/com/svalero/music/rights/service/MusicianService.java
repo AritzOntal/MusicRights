@@ -9,6 +9,7 @@ import com.svalero.music.rights.repository.WorkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,13 @@ public class MusicianService {
             List<Musician> musicians = musicianRepository.findMusiciansByWork(workId);
             return musicians;
         }
+
+
+    public List<Musician> findByParameters (float performanceFee, Boolean affiliated, LocalDate birthDate) {
+        List<Musician> musicians = musicianRepository.findByPerformanceFeeAndAffiliatedAndBirthDate(performanceFee, affiliated, birthDate);
+        return musicians;
+    }
+
 }
 
 //EN ESTA CLASE PROGRAMO PARA LA BASE DE DATOS (CAPA LÓGICA DONDE, ES LO MÁS LIBRE)

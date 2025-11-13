@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -26,9 +27,21 @@ public class DocumentController {
     }
 
     @GetMapping("/documents")
-    public ResponseEntity <List<Document>> getAll() {
-        List<Document> documents = documentService.findAll();
-        return  ResponseEntity.ok().body(documents);
+    public ResponseEntity <List<Document>> getAll(
+            @RequestParam(value = "type", defaultValue = "") String type,
+            @RequestParam(value = "complete", defaultValue = "") Boolean complete,
+            @RequestParam(value = "createAd", defaultValue = "") LocalDate createAd
+            ) {
+        List<Document> concerts;
+
+        if ((type != null && !type.isBlank()) & (createAd != null) & (complete != null)) {
+            concerts = documentService.findByParameters(type, complete, createAd);
+
+        } else {
+
+            concerts = documentService.findAll();
+        }
+            return ResponseEntity.ok().body(concerts);
     }
 
     @GetMapping("/documents/{id}")

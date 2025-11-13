@@ -1,5 +1,6 @@
 package com.svalero.music.rights.controller;
 
+import com.svalero.music.rights.domain.Claim;
 import com.svalero.music.rights.domain.Work;
 import com.svalero.music.rights.exception.ErrorResponse;
 import com.svalero.music.rights.exception.MusicianNotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -25,9 +27,23 @@ public class WorkController {
     }
 
     @GetMapping("/works")
-        public ResponseEntity <List<Work>> getAll() {
-        List<Work> allWorks = workService.findAll();
-        return  ResponseEntity.ok().body(allWorks);
+        public ResponseEntity <List<Work>> getAll(
+            @RequestParam(value = "duration", defaultValue = "") Float duration,
+            @RequestParam(value = "composedAt", defaultValue = "") LocalDate composedAt,
+            @RequestParam(value = "registred", defaultValue = "") Boolean registred
+    ) {
+        List<Work> works;
+
+        if (duration != null & composedAt != null & registred != null) {
+
+            works = workService.findByParameters(duration, composedAt, registred);
+
+            return new ResponseEntity<>(works, HttpStatus.OK);
+
+        } else {
+            works = workService.findAll();
+            return ResponseEntity.ok().body(works);
+        }
     }
 
     @GetMapping("/works/{id}")
