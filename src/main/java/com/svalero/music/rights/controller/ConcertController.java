@@ -30,9 +30,7 @@ public class ConcertController {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "performed", required = false) Boolean performed
     ) {
-        ResponseEntity<List<Concert>> concerts;
-        concerts = concertService.findAll(city, status, performed);
-        return concerts;
+        return concertService.findAll(city, status, performed);
     }
 
     @GetMapping("/concerts/{id}")

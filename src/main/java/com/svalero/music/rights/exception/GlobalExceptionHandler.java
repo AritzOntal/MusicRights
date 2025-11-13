@@ -52,11 +52,7 @@ public class GlobalExceptionHandler {
     //500 PARA EL RESTO
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex) {
-        ErrorResponse body = new ErrorResponse(
-                500,
-                "Error inesperado",
-                "Ha ocurrido un error inesperado"
-        );
+        ErrorResponse body = new ErrorResponse(500, "Error inesperado", "Ha ocurrido un error inesperado");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
     }
 

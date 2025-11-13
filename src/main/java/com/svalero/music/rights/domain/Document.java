@@ -22,10 +22,10 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String type;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String filename;
 
     @Positive
@@ -33,7 +33,7 @@ public class Document {
     private Long size;
 
     @PastOrPresent
-    @Column (name = "create_at")
+    @Column(name = "create_at")
     private LocalDate createAt;
 
     @Column

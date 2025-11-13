@@ -7,6 +7,7 @@ import com.svalero.music.rights.exception.ClaimNotFoundException;
 import com.svalero.music.rights.exception.DocumentNotFoundException;
 import com.svalero.music.rights.repository.ClaimRepository;
 import com.svalero.music.rights.repository.DocumentRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -29,9 +30,18 @@ public class DocumentService {
         documentRepository.save(document);
     }
 
-    public List<Document> findAll() {
-        List<Document> documents = documentRepository.findAll();
-        return documents;
+    public ResponseEntity<List<Document>> findAll(String type, Boolean complete, LocalDate createAd) {
+
+        List<Document> documents;
+
+        if ((type != null && !type.isBlank()) & (createAd != null) & (complete != null)) {
+            documents = documentRepository.findByTypeAndCompleteAndCreateAt(type, complete, createAd);
+            return ResponseEntity.ok().body(documents);
+
+        } else {
+            documents = documentRepository.findAll();
+            return ResponseEntity.ok().body(documents);
+        }
     }
 
     public Document findById(Long id) {
@@ -46,10 +56,6 @@ public class DocumentService {
         return documentRepository.findByClaimId(id);
     }
 
-    public List<Document> findByParameters(String type, Boolean complete, LocalDate createAd) {
-        documentRepository.findByTypeAndCompleteAndCreateAt(type, complete, createAd);
-        return documentRepository.findAll();
-    }
     //LISTA DE DOCUMENTOS ASOCIADOS A UN CLAIM
 
     public Document edit(Long id, Document updateDocument) {

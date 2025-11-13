@@ -23,7 +23,7 @@ public class ConcertService {
         concertRepository.save(concert);
     }
 
-    public ResponseEntity <List<Concert>> findAll(String city, String status, Boolean performed) {
+    public ResponseEntity<List<Concert>> findAll(String city, String status, Boolean performed) {
         List<Concert> concerts;
 
         if ((city != null && !city.isBlank()) & (status != null && !status.isBlank()) & (performed != null)) {
@@ -66,15 +66,6 @@ public class ConcertService {
     public void delete(long id) {
         concertRepository.deleteById(id);
     }
-
-
-
-
-
-
-
-
-
 
 
 }

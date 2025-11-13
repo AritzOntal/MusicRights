@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class ClaimController {
+public class ClaimController {gis
 
     private final ClaimService claimService;
 
@@ -29,43 +29,42 @@ public class ClaimController {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "type", required = false) String type
     ) {
-        ResponseEntity <List<Claim>> claims = claimService.findAll(status, type, pending);
-        return claims;
-        }
+        return claimService.findAll(status, type, pending);
+    }
 
 
-@GetMapping("/claims/{id}")
-public ResponseEntity <Claim> get(@PathVariable long id) throws ClaimNotFoundException {
+    @GetMapping("/claims/{id}")
+    public ResponseEntity<Claim> get(@PathVariable long id) throws ClaimNotFoundException {
         Claim claim = claimService.findById(id);
-        return  ResponseEntity.ok().body(claim);
-}
+        return ResponseEntity.ok().body(claim);
+    }
 
-@PostMapping("/claims")
+    @PostMapping("/claims")
 
-public ResponseEntity <Claim> create (@RequestBody Claim claim) {
+    public ResponseEntity<Claim> create(@RequestBody Claim claim) {
         claimService.add(claim);
         return ResponseEntity.status(HttpStatus.CREATED).body(claim);
     }
 
 
-@PutMapping("/claims/{id}")
-    public ResponseEntity<Claim> update (@RequestBody Claim claim, @PathVariable long id) throws ClaimNotFoundException {
+    @PutMapping("/claims/{id}")
+    public ResponseEntity<Claim> update(@RequestBody Claim claim, @PathVariable long id) throws ClaimNotFoundException {
         Claim updatedClaim = claimService.modify(id, claim);
         return ResponseEntity.ok().body(updatedClaim);
-}
+    }
 
-@DeleteMapping("/claims/{id}")
-public ResponseEntity <Void> remove (@PathVariable long id) throws ClaimNotFoundException {
+    @DeleteMapping("/claims/{id}")
+    public ResponseEntity<Void> remove(@PathVariable long id) throws ClaimNotFoundException {
         claimService.delete(id);
         return ResponseEntity.noContent().build();
-}
+    }
 
 //FILTRADOS
 
-@GetMapping("/claims/by-musician/{id}")
-public ResponseEntity<List<Claim>> getByMusician (@PathVariable long id) throws MusicianNotFoundException {
+    @GetMapping("/claims/by-musician/{id}")
+    public ResponseEntity<List<Claim>> getByMusician(@PathVariable long id) throws MusicianNotFoundException {
         List<Claim> claimsOfMusician = claimService.findByMusicianId(id);
-        return  ResponseEntity.ok().body(claimsOfMusician);
+        return ResponseEntity.ok().body(claimsOfMusician);
     }
 
 

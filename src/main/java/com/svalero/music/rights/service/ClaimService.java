@@ -19,7 +19,7 @@ public class ClaimService {
     private final MusicianService musicianService;
     private ClaimRepository claimRepository;
 
-    public ClaimService (ClaimRepository claimRepository, MusicianService musicianService) {
+    public ClaimService(ClaimRepository claimRepository, MusicianService musicianService) {
         this.claimRepository = claimRepository;
         this.musicianService = musicianService;
     }
@@ -28,18 +28,18 @@ public class ClaimService {
         return claimRepository.save(claim);
     }
 
-    public ResponseEntity <List<Claim>> findAll(String status, String type, Boolean pending) {
+    public ResponseEntity<List<Claim>> findAll(String status, String type, Boolean pending) {
 
-            List<Claim> claims;
+        List<Claim> claims;
 
-            if (pending != null & (status != null && !status.isBlank()) & (type != null && !type.isBlank())) {
+        if (pending != null & (status != null && !status.isBlank()) & (type != null && !type.isBlank())) {
 
-                claims = claimRepository.findByStatusAndTypeAndPending(status, type, pending);
-                return new ResponseEntity<>(claims, HttpStatus.OK);
+            claims = claimRepository.findByStatusAndTypeAndPending(status, type, pending);
+            return new ResponseEntity<>(claims, HttpStatus.OK);
 
-            } else {
-                claims = claimRepository.findAll();
-                return new ResponseEntity<>(claims, HttpStatus.OK);
+        } else {
+            claims = claimRepository.findAll();
+            return new ResponseEntity<>(claims, HttpStatus.OK);
         }
     }
 
@@ -70,7 +70,7 @@ public class ClaimService {
     }
 
     //FILTRADOS
-    public List <Claim> findByMusicianId(long id) throws MusicianNotFoundException {
+    public List<Claim> findByMusicianId(long id) throws MusicianNotFoundException {
         Musician musician = musicianService.findById(id);
         if (musician == null) {
             throw new MusicianNotFoundException();

@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name= "concerts")
+@Table(name = "concerts")
 public class Concert {
 
     @Id
@@ -24,19 +24,19 @@ public class Concert {
     @Column
     private String showTitle;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String city;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String province;
 
-    @Column  (nullable = false)
+    @Column(nullable = false)
     private LocalDate date;
 
     @Column
     private String status;
 
-    @NotNull (message = "El estado del concierto no puede ser nulo")
+    @NotNull(message = "El estado del concierto no puede ser nulo")
     @Column
     private boolean performed;
 
