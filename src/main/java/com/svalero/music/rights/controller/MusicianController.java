@@ -28,7 +28,7 @@ public class MusicianController {
     }
 
     @GetMapping("/musicians")
-    public ResponseEntity<List<Musician>> getALl (
+    public ResponseEntity<List<Musician>> getALl(
             @RequestParam(value = "performanceFee", required = false) Float performanceFee,
             @RequestParam(value = "affiliated", required = false) Boolean affiliated,
             @RequestParam(value = "birthDate", required = false) LocalDate birthDate
@@ -42,13 +42,13 @@ public class MusicianController {
         return ResponseEntity.ok().body(musician);
     }
 
-    //TODO COMPROBAR QUE NO EXISTA OTRO MUSICO CON EL MISMO DNI
-    //TODO VALIDACIONES
+
     @PostMapping("/musicians")
     public ResponseEntity<Musician> create(@Valid @RequestBody Musician musician) {
-        musicianService.add(musician);
-        return ResponseEntity.status(HttpStatus.CREATED).body(musician);
+        Musician saved = musicianService.add(musician);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
+
 
     @PutMapping("/musicians/{id}")
     public ResponseEntity<Musician> edit(@Valid @PathVariable long id, @RequestBody Musician musician) {

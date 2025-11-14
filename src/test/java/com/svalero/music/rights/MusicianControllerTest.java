@@ -7,6 +7,7 @@ import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.domain.Work;
 import com.svalero.music.rights.exception.GlobalExceptionHandler;
 import com.svalero.music.rights.exception.MusicianNotFoundException;
+import com.svalero.music.rights.exception.WorkNotFoundException;
 import com.svalero.music.rights.service.MusicianService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -99,7 +100,7 @@ public class MusicianControllerTest {
 
 
     //TODO                                       "/musicians" (POST)
-
+    //201
     @Test
     void returnOKifCreatedPost() throws Exception {
 
@@ -118,13 +119,67 @@ public class MusicianControllerTest {
         musician.setWorks(works);
         musician.setClaims(claims);
 
-        Mockito.doNothing().when(musicianService).add(Mockito.any(Musician.class));
-        //doNothing porque el Service no devuelve nada, pero necesario poruqe le controller depende él
+        Mockito.when(musicianService.add(Mockito.any(Musician.class)))
+                .thenReturn(musician);
 
         mockMvc.perform(post("/musicians")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(musician)))
                 .andExpect(status().isCreated());
+    }
+
+    //400
+    @Test
+    void returIfbadRquestPost() throws Exception {
+        List<Work> works = new ArrayList<>();
+        List<Claim> claims = new ArrayList<>();
+        LocalDate birthDate = LocalDate.of(1992, 1, 1);
+
+        Musician musician = new Musician();
+        musician.setFirstName("Pedro");
+        musician.setLastName("Sánchez");
+        musician.setBirthDate(birthDate);
+        musician.setAffiliated(true);
+        musician.setDni("459898fffZ");
+        musician.setPerformanceFee(2.6f);
+        musician.setAffiliatedNumber(12312L);
+        musician.setWorks(works);
+        musician.setClaims(claims);
+
+        mockMvc.perform(post("/musicians")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(musician)))
+                .andExpect(status().isBadRequest());
+    }
+
+    //404
+    @Test
+    void returIfNotExistWork() throws Exception {
+
+        String body = """
+                {
+                  "firstName": "Aritz",
+                  "lastName": "Ontalvilla",
+                  "birthDate": "1992-09-12",
+                  "affiliated": true,
+                  "dni": "45916040J",
+                  "performanceFee": 6.0,
+                  "affiliatedNumber": 12313,
+                  "works": [
+                    { "id": 999 }
+                  ]
+                }
+                """;
+
+        Mockito.when(musicianService.add(Mockito.any(Musician.class)))
+                .thenThrow(new WorkNotFoundException());
+
+
+        mockMvc.perform(post("/musicians")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andExpect(status().isNotFound());
+
     }
 
 

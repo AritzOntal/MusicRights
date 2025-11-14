@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -27,8 +28,22 @@ public class MusicianService {
         this.workRepository = workRepository;
     }
 
-    public void add(Musician musician) {
-        musicianRepository.save(musician);
+    //TODO ENTEDER COMO LO METE TODO EN LA TABLA N a N
+    public Musician add(Musician musician) {
+        List<Work> managedWorks = new ArrayList<>();
+
+        if (musician.getWorks() != null) {      //musician.getWorks ---> ids que el cliente dice que quiere relacionar (los del Array)
+            for (Work w : musician.getWorks()) {
+                Work workDb = workRepository.findById(w.getId()) //Saca el ID de cada Work pedido por el cliente y lo checkea en BDD
+                        .orElseThrow(() -> new RuntimeException("Work not found")); //Si no encuentra nigun lanza exception
+
+                workDb.getMusicians().add(musician);  // Como Work es el propietario de la talba intermedia, le añadimos el músico
+                managedWorks.add(workDb); //A la lista creada arriba le añadimos el work
+            }
+        }
+        musician.setWorks(managedWorks); //Al músico le añadimos la lista de works
+        Musician saved = musicianRepository.save(musician);
+        return saved;
     }
 
     public ResponseEntity<List<Musician>> findAll(Float performanceFee, Boolean affiliated, LocalDate birthDate) {
