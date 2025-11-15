@@ -9,6 +9,7 @@ import com.svalero.music.rights.exception.GlobalExceptionHandler;
 import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.exception.WorkNotFoundException;
 import com.svalero.music.rights.service.MusicianService;
+import com.svalero.music.rights.util.BodyForPerform;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -41,7 +43,7 @@ public class MusicianControllerTest {
     private ObjectMapper objectMapper;
 
 
-    //TODO                                   "/musicians" (GET)
+    //                                   "/musicians" (GET)
 
     //404
     @Test
@@ -99,7 +101,7 @@ public class MusicianControllerTest {
     }
 
 
-    //TODO                                       "/musicians" (POST)
+    //                                       "/musicians" (POST)
     //201
     @Test
     void returnOKifCreatedPost() throws Exception {
@@ -156,20 +158,9 @@ public class MusicianControllerTest {
     @Test
     void returIfNotExistWork() throws Exception {
 
-        String body = """
-                {
-                  "firstName": "Aritz",
-                  "lastName": "Ontalvilla",
-                  "birthDate": "1992-09-12",
-                  "affiliated": true,
-                  "dni": "45916040J",
-                  "performanceFee": 6.0,
-                  "affiliatedNumber": 12313,
-                  "works": [
-                    { "id": 999 }
-                  ]
-                }
-                """;
+        BodyForPerform accesBody = new BodyForPerform();
+        String body = accesBody.getBodyMusician();
+
 
         Mockito.when(musicianService.add(Mockito.any(Musician.class)))
                 .thenThrow(new WorkNotFoundException());
@@ -183,7 +174,7 @@ public class MusicianControllerTest {
     }
 
 
-    //TODO                                    "/musicians/{id}" (GET)
+    //                                    "/musicians/{id}" (GET)
 
     //404
     @Test
@@ -220,7 +211,25 @@ public class MusicianControllerTest {
     }
 
 
-    //TODO                               "/musicians/{id}" (POST)
+    //TODO                       "/musicians/{id}" (PUT)
+
+    //404
+    @Test
+    void return404IfIdIsInvalid() throws Exception {
+
+        BodyForPerform accesBody = new BodyForPerform();
+        String body = accesBody.getBodyMusician();
+
+        Long notexistId = 1L;
+
+        Mockito.when(musicianService.edit(Mockito.eq(notexistId), Mockito.any(Musician.class)))
+                .thenThrow(new MusicianNotFoundException());
+
+        mockMvc.perform(put("/musicians/{id}", notexistId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andExpect(status().isNotFound());
+    }
 
 
 }

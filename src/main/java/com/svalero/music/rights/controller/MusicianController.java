@@ -62,10 +62,4 @@ public class MusicianController {
         return ResponseEntity.noContent().build();
     }
 
-    //FILTRADOS
-    @GetMapping("/musicians/by-work/{id}")
-    public ResponseEntity<List<Musician>> getByWork(@PathVariable long id) throws WorkNotFoundException {
-        List<Musician> musiciansOfWork = musicianService.findByWorkId(id);
-        return ResponseEntity.ok().body(musiciansOfWork);
-    }
 }

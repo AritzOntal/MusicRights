@@ -1,12 +1,13 @@
 package com.svalero.music.rights.service;
 
 
+import com.svalero.music.rights.domain.Claim;
 import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.domain.Work;
+import com.svalero.music.rights.exception.ClaimNotFoundException;
 import com.svalero.music.rights.exception.WorkNotFoundException;
 import com.svalero.music.rights.repository.MusicianRepository;
 import com.svalero.music.rights.repository.WorkRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
 public class MusicianService {
@@ -30,20 +29,20 @@ public class MusicianService {
 
     //TODO ENTEDER COMO LO METE TODO EN LA TABLA N a N
     public Musician add(Musician musician) {
+
         List<Work> managedWorks = new ArrayList<>();
 
         if (musician.getWorks() != null) {      //musician.getWorks ---> ids que el cliente dice que quiere relacionar (los del Array)
             for (Work w : musician.getWorks()) {
                 Work workDb = workRepository.findById(w.getId()) //Saca el ID de cada Work pedido por el cliente y lo checkea en BDD
-                        .orElseThrow(() -> new RuntimeException("Work not found")); //Si no encuentra nigun lanza exception
+                        .orElseThrow(WorkNotFoundException::new); //Si no encuentra nigun lanza exception
 
-                workDb.getMusicians().add(musician);  // Como Work es el propietario de la talba intermedia, le añadimos el músico
-                managedWorks.add(workDb); //A la lista creada arriba le añadimos el work
+                workDb.getMusicians().add(musician);  // Como Work es el propietario de la talba intermedia le añadimos el musico a su lista de musicos de Work
+                managedWorks.add(workDb); //A la lista creada arriba le añadimos el compacto (el musico tambien)
             }
         }
-        musician.setWorks(managedWorks); //Al músico le añadimos la lista de works
-        Musician saved = musicianRepository.save(musician);
-        return saved;
+        musician.setWorks(managedWorks); //Al músico le añadimos todas las works que hemos pillado
+        return musicianRepository.save(musician);
     }
 
     public ResponseEntity<List<Musician>> findAll(Float performanceFee, Boolean affiliated, LocalDate birthDate) {
@@ -84,14 +83,6 @@ public class MusicianService {
         musicianRepository.deleteById(id);
     }
 
-    //FILTRADOS
-    public List<Musician> findByWorkId(long workId) throws WorkNotFoundException {
-        workRepository.findById(workId)
-                .orElseThrow(WorkNotFoundException::new);
-
-        List<Musician> musicians = musicianRepository.findMusiciansByWork(workId);
-        return musicians;
-    }
 }
 
 //EN ESTA CLASE PROGRAMO PARA LA BASE DE DATOS (CAPA LÓGICA DONDE, ES LO MÁS LIBRE)

@@ -54,6 +54,7 @@ public class Musician {
     @ManyToMany(mappedBy = "musicians")
     private List<Work> works;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "musician")
     private List<Claim> claims;
 }
