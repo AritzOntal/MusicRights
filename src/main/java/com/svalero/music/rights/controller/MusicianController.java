@@ -42,13 +42,13 @@ public class MusicianController {
         return ResponseEntity.ok().body(musician);
     }
 
-    //TODO COMPROBAR QUE NO EXISTA OTRO MUSICO CON EL MISMO DNI
-    //TODO VALIDACIONES
+
     @PostMapping("/musicians")
     public ResponseEntity<Musician> create(@Valid @RequestBody Musician musician) {
-        musicianService.add(musician);
-        return ResponseEntity.status(HttpStatus.CREATED).body(musician);
+        Musician saved = musicianService.add(musician);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
+
 
     @PutMapping("/musicians/{id}")
     public ResponseEntity<Musician> edit(@Valid @PathVariable long id, @RequestBody Musician musician) {
@@ -62,10 +62,4 @@ public class MusicianController {
         return ResponseEntity.noContent().build();
     }
 
-    //FILTRADOS
-    @GetMapping("/musicians/by-work/{id}")
-    public ResponseEntity<List<Musician>> getByWork(@PathVariable long id) throws WorkNotFoundException {
-        List<Musician> musiciansOfWork = musicianService.findByWorkId(id);
-        return ResponseEntity.ok().body(musiciansOfWork);
-    }
 }

@@ -58,11 +58,4 @@ public class WorkController {
         workService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-    //FILTRADO
-    @GetMapping("/works/by-musician/{id}")
-    public ResponseEntity<List<Work>> getByMusician(@PathVariable Long id) throws MusicianNotFoundException {
-        List<Work> worksOfMusician = workService.findByMusician(id);
-        return ResponseEntity.ok().body(worksOfMusician);
-    }
 }

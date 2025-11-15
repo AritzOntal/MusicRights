@@ -1,6 +1,7 @@
 package com.svalero.music.rights.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -39,12 +40,7 @@ public class Claim {
     @Column
     private boolean pending;
 
-
     //TODO INTEGRAR FLOAT
-    /*@DecimalMin(value = "1.0", message = "El valor no puede ser inferior a 1")
-    @DecimalMax(value = "5.0", message = "El valor no puede ser mas de 5")
-    @Column
-    private float priorityLeve;*/
 
     @ManyToOne
     @JoinColumn(name = "musician_id")

@@ -3,6 +3,7 @@ package com.svalero.music.rights.service;
 import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.domain.Work;
 import com.svalero.music.rights.exception.MusicianNotFoundException;
+import com.svalero.music.rights.repository.MusicianRepository;
 import com.svalero.music.rights.repository.WorkRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,16 +11,19 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WorkService {
 
     private final WorkRepository workRepository;
     private final MusicianService musicianService;
+    private final MusicianRepository musicianRepository;
 
-    public WorkService(WorkRepository workRepository, MusicianService musicianService) {
+    public WorkService(WorkRepository workRepository, MusicianService musicianService,  MusicianRepository musicianRepository) {
         this.workRepository = workRepository;
         this.musicianService = musicianService;
+        this.musicianRepository = musicianRepository;
     }
 
     public void add(Work work) {
@@ -69,5 +73,9 @@ public class WorkService {
 
     public void delete(long id) {
         workRepository.deleteById(id);
+    }
+
+    public Boolean existsById(Long id) {
+        return workRepository.existsById(id);
     }
 }

@@ -6,27 +6,34 @@ import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.exception.ClaimNotFoundException;
 import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.repository.ClaimRepository;
-import com.svalero.music.rights.repository.MusicianRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import com.svalero.music.rights.repository.MusicianRepository;
 
 import java.util.List;
 
 @Service
 public class ClaimService {
 
-    private final MusicianService musicianService;
-    private ClaimRepository claimRepository;
+    private final MusicianRepository musicianRepository;
+    private final ClaimRepository claimRepository;
 
-    public ClaimService(ClaimRepository claimRepository, MusicianService musicianService) {
+    public ClaimService(ClaimRepository claimRepository, MusicianRepository musicianRepository) {
         this.claimRepository = claimRepository;
-        this.musicianService = musicianService;
+        this.musicianRepository = musicianRepository;
     }
 
-    public Claim add(Claim claim) {
-        return claimRepository.save(claim);
-    }
+        public Claim add(Claim claim) {
+            Long idMusician = claim.getMusician().getId();
+
+            if (idMusician != null) {
+                Musician musicianDb = musicianRepository.findById(idMusician)
+                        .orElseThrow(MusicianNotFoundException::new);
+                claim.setMusician(musicianDb);
+            }
+            return claimRepository.save(claim);
+        }
 
     public ResponseEntity<List<Claim>> findAll(String status, String type, Boolean pending) {
 
@@ -71,12 +78,9 @@ public class ClaimService {
 
     //FILTRADOS
     public List<Claim> findByMusicianId(long id) throws MusicianNotFoundException {
-        Musician musician = musicianService.findById(id);
-        if (musician == null) {
-            throw new MusicianNotFoundException();
-        } else {
-            List<Claim> claims = claimRepository.findByMusicianId(id);
-            return claims;
-        }
+        musicianRepository.findById(id)
+                .orElseThrow(MusicianNotFoundException::new);
+
+        return claimRepository.findByMusicianId(id);
     }
 }

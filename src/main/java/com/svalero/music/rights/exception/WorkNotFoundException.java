@@ -1,5 +1,9 @@
 package com.svalero.music.rights.exception;
 
-public class WorkNotFoundException extends Exception {
+public class WorkNotFoundException extends RuntimeException {
+    public WorkNotFoundException() {
+        super();
+    }
+
 
 }
