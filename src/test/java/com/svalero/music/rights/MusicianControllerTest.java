@@ -25,9 +25,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = MusicianController.class)
@@ -43,7 +41,7 @@ public class MusicianControllerTest {
     private ObjectMapper objectMapper;
 
 
-    //                                   "/musicians" (GET)
+    //                            "/musicians" (GET)
 
     //404
     @Test
@@ -101,7 +99,7 @@ public class MusicianControllerTest {
     }
 
 
-    //                                       "/musicians" (POST)
+    //                        "/musicians" (POST)
     //201
     @Test
     void returnOKifCreatedPost() throws Exception {
@@ -174,7 +172,7 @@ public class MusicianControllerTest {
     }
 
 
-    //                                    "/musicians/{id}" (GET)
+    //                     "/musicians/{id}" (GET)
 
     //404
     @Test
@@ -211,7 +209,7 @@ public class MusicianControllerTest {
     }
 
 
-    //TODO                       "/musicians/{id}" (PUT)
+    //                       "/musicians/{id}" (PUT)
 
     //404
     @Test
@@ -231,6 +229,94 @@ public class MusicianControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    //400
+    @Test
+    void return400IfBadRequest() throws Exception {
 
+        List<Work> works = new ArrayList<>();
+        List<Claim> claims = new ArrayList<>();
+        LocalDate birthDate = LocalDate.of(1992, 1, 1);
+        Long notexistId = 1L;
+
+        Musician musician = new Musician();
+        musician.setFirstName("Pedro");
+        musician.setLastName("Sanchez");
+        musician.setBirthDate(null);
+        musician.setAffiliated(false);
+        musician.setDni("45916040j2323");
+        musician.setPerformanceFee(2.6f);
+        musician.setAffiliatedNumber(12312L);
+        musician.setWorks(works);
+        musician.setClaims(claims);
+
+        mockMvc.perform(put("/musicians/{id}", notexistId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(musician)))
+                .andExpect(status().isBadRequest());
+    }
+
+    //200
+    @Test
+    void returnOKifNotProblem() throws Exception {
+
+        List<Work> works = new ArrayList<>();
+        List<Claim> claims = new ArrayList<>();
+        LocalDate birthDate = LocalDate.of(1992, 1, 1);
+        Long idExist = 1L;
+
+        Musician musician = new Musician();
+        musician.setFirstName("Pedro");
+        musician.setLastName("Sanchez");
+        musician.setBirthDate(birthDate);
+        musician.setAffiliated(true);
+        musician.setDni("45916040J");
+        musician.setPerformanceFee(2.6f);
+        musician.setAffiliatedNumber(12312L);
+        musician.setWorks(works);
+        musician.setClaims(claims);
+
+        Mockito.when(musicianService.edit(Mockito.any(Long.class), Mockito.any(Musician.class)))
+                .thenReturn(Mockito.mock(Musician.class));
+
+        mockMvc.perform(put("/musicians/{id}", idExist)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(musician)))
+                .andExpect(status().isOk());
+    }
+
+    //                      "/musicians/{id}" (DELETE)
+
+    //404
+    @Test
+    void return404IfIdNotExistOnDelete() throws Exception {
+        Long notexistId = 1L;
+
+        // musicianService.delete(id) es void → se mockea así:
+        Mockito.doThrow(new MusicianNotFoundException())
+                .when(musicianService)
+                .delete(notexistId);
+
+        mockMvc.perform(delete("/musicians/{id}", notexistId))
+                .andExpect(status().isNotFound());
+    }
+
+    //204
+    @Test
+    void returnNotContetIfIdIsInvalid() throws Exception {
+        Long existId = 1L;
+
+        Mockito.doNothing().when(musicianService).delete(existId);
+
+        mockMvc.perform(delete("/musicians/{id}", existId))
+                .andExpect(status().isNoContent());
+    }
+
+    //400
+    @Test
+    void return400ifBadRequest() throws Exception {
+        mockMvc.perform(delete("/musicians/pedro")) // "abc" no puede convertir a Long y genera MethodArgument...
+                .andExpect(status().isBadRequest());
+        // Lo gestiona el @ControllerAdvice
+    }
 }
 

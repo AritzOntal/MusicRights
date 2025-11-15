@@ -44,14 +44,14 @@ public class MusicianController {
 
 
     @PostMapping("/musicians")
-    public ResponseEntity<Musician> create(@Valid @RequestBody Musician musician) {
+    public ResponseEntity<Musician> create(@RequestBody @Valid Musician musician) {
         Musician saved = musicianService.add(musician);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
 
     @PutMapping("/musicians/{id}")
-    public ResponseEntity<Musician> edit(@Valid @PathVariable long id, @RequestBody Musician musician) {
+    public ResponseEntity<Musician> edit(@PathVariable Long id, @Valid @RequestBody Musician musician) {
         musicianService.edit(id, musician);
         return ResponseEntity.ok().body(musician);
     }
