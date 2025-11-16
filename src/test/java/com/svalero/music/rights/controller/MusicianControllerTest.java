@@ -1,7 +1,6 @@
-package com.svalero.music.rights;
+package com.svalero.music.rights.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.svalero.music.rights.controller.MusicianController;
 import com.svalero.music.rights.domain.Claim;
 import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.domain.Work;

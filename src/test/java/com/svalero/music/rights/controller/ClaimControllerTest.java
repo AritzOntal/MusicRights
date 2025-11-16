@@ -1,32 +1,22 @@
-package com.svalero.music.rights;
+package com.svalero.music.rights.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.svalero.music.rights.controller.ClaimController;
-import com.svalero.music.rights.controller.MusicianController;
 import com.svalero.music.rights.domain.Claim;
 import com.svalero.music.rights.domain.Musician;
-import com.svalero.music.rights.domain.Work;
 import com.svalero.music.rights.exception.ClaimNotFoundException;
 import com.svalero.music.rights.exception.GlobalExceptionHandler;
 import com.svalero.music.rights.exception.MusicianNotFoundException;
-import com.svalero.music.rights.exception.WorkNotFoundException;
 import com.svalero.music.rights.service.ClaimService;
-import com.svalero.music.rights.service.MusicianService;
 import com.svalero.music.rights.util.BodyForPerform;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
