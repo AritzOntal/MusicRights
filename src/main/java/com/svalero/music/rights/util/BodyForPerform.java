@@ -53,4 +53,18 @@ public class BodyForPerform {
               }
             } 
             """;
+
+    String bodyDocument = """
+            {
+              "type": "PDF",
+              "filename": "reclamacion_123.pdf",
+              "size": 245678,
+              "createAt": "2025-02-10",
+              "complete": true,
+              "completionPercentage": 85.5,
+              "claim": {
+                "id": 1
+              }
+            }
+            """;
 }

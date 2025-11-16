@@ -1,9 +1,6 @@
 package com.svalero.music.rights.util;
 
-import com.svalero.music.rights.domain.Claim;
-import com.svalero.music.rights.domain.Concert;
-import com.svalero.music.rights.domain.Musician;
-import com.svalero.music.rights.domain.Work;
+import com.svalero.music.rights.domain.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -35,17 +32,17 @@ public class EntityTest {
 
             return concert;
         }
-            Concert concert = new Concert();
-            concert.setId(1L);
-            concert.setStatus("open");
-            concert.setCity("Madrid");
-            concert.setDate(LocalDate.now());
-            concert.setLatitude(23124D);
-            concert.setShowTitle("Concierto en Las Ventas de Madrid");
-            concert.setLongitude(1232D);
-            concert.setMusician(new Musician());
-            concert.setProvince("Madrid");
-            return concert;
+        Concert concert = new Concert();
+        concert.setId(1L);
+        concert.setStatus("open");
+        concert.setCity("Madrid");
+        concert.setDate(LocalDate.now());
+        concert.setLatitude(23124D);
+        concert.setShowTitle("Concierto en Las Ventas de Madrid");
+        concert.setLongitude(1232D);
+        concert.setMusician(new Musician());
+        concert.setProvince("Madrid");
+        return concert;
     }
 
     public static Musician testMusician(Boolean correctRequest) {
@@ -86,6 +83,38 @@ public class EntityTest {
         musician.setClaims(claims);
 
         return musician;
+    }
+
+    public static Document testDocument(Boolean correctRequest) {
+
+        if (!correctRequest) {
+
+            Document document = new Document();
+            document.setId(1L);
+            document.setCreateAt(LocalDate.now());
+            document.setSize(-1L);
+            document.setFilename("TestDocument");
+            document.setCompletionPercentage(2.3f);
+            document.setComplete(true);
+            document.setType("");
+            document.setClaim(new Claim());
+            return document;
+        }
+
+        Document document = new Document();
+        Claim claim = new Claim();
+        claim.setId(1L);
+
+        document.setId(1L);
+        document.setCreateAt(LocalDate.now());
+        document.setSize(121212L);
+        document.setFilename("TestDocument");
+        document.setCompletionPercentage(2.3f);
+        document.setComplete(true);
+        document.setType("");
+        document.setClaim(claim);
+        return document;
+
     }
 
 }
