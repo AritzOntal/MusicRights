@@ -1,4 +1,5 @@
 package com.svalero.music.rights;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.svalero.music.rights.controller.ClaimController;
 import com.svalero.music.rights.controller.MusicianController;
@@ -158,7 +159,7 @@ public class ClaimControllerTest {
     }
 
 
-    //                     "/musicians/{id}" (GET)
+    //                     "/claims/{id}" (GET)
 
     //404
     @Test
@@ -195,14 +196,14 @@ public class ClaimControllerTest {
     }
 
 
-    //                       "/musicians/{id}" (PUT)
+    //                       "/claims/{id}" (PUT)
 
     //404
     @Test
     void return404IfIdIsInvalid() throws Exception {
 
         BodyForPerform accesBody = new BodyForPerform();
-        String body = accesBody.getBodyMusician();
+        String body = accesBody.getBodyClaim();
 
         Long notexistId = 1L;
 
@@ -223,16 +224,15 @@ public class ClaimControllerTest {
 
         Claim claim = new Claim();
 
-        claim.setId(1L);
+        claim.setId(notExistId);
         claim.setDescription("test");
         claim.setType("test");
         claim.setReference(null);
         claim.setStatus("open");
         claim.setPending(true);
-        claim.setMusician(new Musician());
 
 
-        mockMvc.perform(put("/musicians/{id}", notExistId)
+        mockMvc.perform(put("/claims/{id}", notExistId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(claim)))
                 .andExpect(status().isBadRequest());
@@ -262,7 +262,7 @@ public class ClaimControllerTest {
                 .andExpect(status().isOk());
     }
 
-    //                      "/musicians/{id}" (DELETE)
+    //                      "/claims/{id}" (DELETE)
 
     //404
     @Test
@@ -292,7 +292,7 @@ public class ClaimControllerTest {
     //400
     @Test
     void return400ifBadRequest() throws Exception {
-        mockMvc.perform(delete("/claims/pedro")) // "abc" no puede convertir a Long y genera MethodArgument...
+        mockMvc.perform(delete("/claims/juan"))
                 .andExpect(status().isBadRequest());
         // Lo gestiona el @ControllerAdvice
     }

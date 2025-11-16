@@ -37,4 +37,20 @@ public class BodyForPerform {
             }
             """;
 
+    String bodyConcert = """
+            {
+              "showTitle": "Concierto en Las Ventas",
+              "city": "Madrid",
+              "province": "Madrid",
+              "date": "2025-06-15",
+              "status": "open",
+              "performed": false,
+              "ticketPrice": 35.50,
+              "longitude": -3.688,
+              "latitude": 40.416,
+              "musician": {
+                "id": 1
+              }
+            } 
+            """;
 }

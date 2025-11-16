@@ -55,13 +55,6 @@ public class GlobalExceptionHandler {
         return badRequest("Error en los campos");
     }
 
-    //500 PARA EL RESTO
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleUnexpected(Exception ex) {
-        ErrorResponse body = new ErrorResponse(500, "Error inesperado", "Ha ocurrido un error inesperado");
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);
-    }
-
     //HELPERS
     private ResponseEntity<ErrorResponse> notFound(String message) {
         ErrorResponse body = new ErrorResponse(404, "Not-found", message);
