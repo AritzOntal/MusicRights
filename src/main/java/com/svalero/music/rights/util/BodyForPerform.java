@@ -10,17 +10,31 @@ import lombok.NoArgsConstructor;
 public class BodyForPerform {
 
     String bodyMusician = """
-                {
-                  "firstName": "Aritz",
-                  "lastName": "Ontalvilla",
-                  "birthDate": "1992-09-12",
-                  "affiliated": true,
-                  "dni": "45916040J",
-                  "performanceFee": 6.0,
-                  "affiliatedNumber": 12313,
-                  "works": [
-                    { "id": 999 }
-                  ]
-                }
-                """;
-    }
+            {
+              "firstName": "Aritz",
+              "lastName": "Ontalvilla",
+              "birthDate": "1992-09-12",
+              "affiliated": true,
+              "dni": "45916040J",
+              "performanceFee": 6.0,
+              "affiliatedNumber": 12313,
+              "works": [
+                { "id": 999 }
+              ]
+            }
+            """;
+
+    String bodyClaim = """
+            {
+              "reference": "12345678",
+              "status": "open",
+              "type": "refund",
+              "description": "Reclamacion por derechos en discoteca Oslo",
+              "pending": true,
+              "musician": {
+                "id": 1
+              }
+            }
+            """;
+
+}
