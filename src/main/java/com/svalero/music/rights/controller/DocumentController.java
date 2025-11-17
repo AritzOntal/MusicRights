@@ -9,6 +9,7 @@ import com.svalero.music.rights.exception.DocumentNotFoundException;
 import com.svalero.music.rights.exception.ErrorResponse;
 import com.svalero.music.rights.repository.DocumentRepository;
 import com.svalero.music.rights.service.DocumentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -42,13 +43,15 @@ public class DocumentController {
     }
 
     @PostMapping("/documents")
-    public ResponseEntity<Document> create(@RequestBody Document document) {
+    public ResponseEntity<Document> create(@RequestBody @Valid Document document) {
         documentService.add(document);
-        return ResponseEntity.ok().body(document);
+        Document saved = documentService.add(document);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved); //ES NECESARIO PARA QUE ME DE EL 201 (CREATED)
+                                                                        // EL PERFORME SE FIJA EN ESTA RESPUESTA!!!
     }
 
     @PutMapping("/documents/{id}")
-    public ResponseEntity<Document> update(@RequestBody Document document, @PathVariable Long id) {
+    public ResponseEntity<Document> update(@RequestBody @Valid Document document, @PathVariable Long id) {
         documentService.edit(id, document);
         return ResponseEntity.ok().body(document);
     }

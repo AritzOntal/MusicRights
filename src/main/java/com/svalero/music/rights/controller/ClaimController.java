@@ -6,6 +6,7 @@ import com.svalero.music.rights.exception.ClaimNotFoundException;
 import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.repository.ClaimRepository;
 import com.svalero.music.rights.service.ClaimService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -41,14 +42,14 @@ public class ClaimController {
 
     @PostMapping("/claims")
 
-    public ResponseEntity<Claim> create(@RequestBody Claim claim) {
+    public ResponseEntity<Claim> create(@RequestBody @Valid Claim claim) {
         claimService.add(claim);
         return ResponseEntity.status(HttpStatus.CREATED).body(claim);
     }
 
 
     @PutMapping("/claims/{id}")
-    public ResponseEntity<Claim> update(@RequestBody Claim claim, @PathVariable long id) throws ClaimNotFoundException {
+    public ResponseEntity<Claim> update(@RequestBody @Valid Claim claim, @PathVariable long id) throws ClaimNotFoundException {
         Claim updatedClaim = claimService.modify(id, claim);
         return ResponseEntity.ok().body(updatedClaim);
     }

@@ -3,6 +3,7 @@ package com.svalero.music.rights.service;
 import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.domain.Work;
 import com.svalero.music.rights.exception.MusicianNotFoundException;
+import com.svalero.music.rights.exception.WorkNotFoundException;
 import com.svalero.music.rights.repository.MusicianRepository;
 import com.svalero.music.rights.repository.WorkRepository;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,14 +22,29 @@ public class WorkService {
     private final MusicianService musicianService;
     private final MusicianRepository musicianRepository;
 
-    public WorkService(WorkRepository workRepository, MusicianService musicianService,  MusicianRepository musicianRepository) {
+    public WorkService(WorkRepository workRepository, MusicianService musicianService, MusicianRepository musicianRepository) {
         this.workRepository = workRepository;
         this.musicianService = musicianService;
         this.musicianRepository = musicianRepository;
     }
 
-    public void add(Work work) {
+    public Work add(Work work) {
+        List<Musician> musicianList = work.getMusicians();
+
+        if (musicianList != null) {
+            for (Musician musician : musicianList) {
+                long idMusician = musician.getId();
+                Musician musicianDb = musicianRepository.findById(idMusician)
+                        .orElseThrow(MusicianNotFoundException::new);
+
+                List<Musician> newMusicianList = new ArrayList<>();
+                newMusicianList.add(musicianDb);
+                work.setMusicians(newMusicianList);
+            }
+            return workRepository.save(work);
+        }
         workRepository.save(work);
+        return work;
     }
 
     public ResponseEntity<List<Work>> findAll(Float duration, LocalDate composedAt, Boolean registred) {
@@ -45,8 +62,8 @@ public class WorkService {
     }
 
     public Work findById(Long id) {
-        Work work = workRepository.findById(id).
-                orElseThrow(() -> new RuntimeException("work_not_found"));
+        Work work = workRepository.findById(id)
+                .orElseThrow(WorkNotFoundException::new);
         return work;
     }
 
@@ -60,15 +77,16 @@ public class WorkService {
         }
     }
 
-    public Work edit(long id, Work updateWork) {
-        Work work = findById(id);
+    public ResponseEntity<Work> edit(long id, Work updateWork) {
+        Work work = workRepository.findById(id)
+                .orElseThrow(WorkNotFoundException::new);
 
         work.setDuration(updateWork.getDuration());
         work.setGenre(updateWork.getGenre());
         work.setTitle(updateWork.getTitle());
         work.setIsrc(updateWork.getIsrc());
 
-        return work;
+        return ResponseEntity.ok().body(workRepository.save(work));
     }
 
     public void delete(long id) {

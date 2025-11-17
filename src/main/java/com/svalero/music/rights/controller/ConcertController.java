@@ -1,16 +1,11 @@
 package com.svalero.music.rights.controller;
 
-import com.svalero.music.rights.domain.Claim;
 import com.svalero.music.rights.domain.Concert;
-import com.svalero.music.rights.domain.Musician;
-import com.svalero.music.rights.exception.ClaimNotFoundException;
-import com.svalero.music.rights.exception.ConcertNotFoundException;
-import com.svalero.music.rights.exception.ErrorResponse;
-import com.svalero.music.rights.exception.MusicianNotFoundException;
+
 import com.svalero.music.rights.service.ConcertService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,25 +29,25 @@ public class ConcertController {
     }
 
     @GetMapping("/concerts/{id}")
-    public ResponseEntity<Concert> get(long id) {
+    public ResponseEntity<Concert> get( @PathVariable Long id) {
         Concert concert = concertService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(concert);
     }
 
     @PostMapping("/concerts")
-    public ResponseEntity<Concert> create(@RequestBody Concert concert) {
+    public ResponseEntity<Concert> create(@RequestBody @Valid Concert concert) {
         concertService.add(concert);
         return ResponseEntity.status(HttpStatus.CREATED).body(concert);
     }
 
     @PutMapping("concerts/{id}")
-    public ResponseEntity<Concert> update(@RequestBody Concert concert, @PathVariable long id) {
+    public ResponseEntity<Concert> update(@RequestBody @Valid Concert concert, @PathVariable Long id) {
         Concert updatedConcert = concertService.edit(id, concert);
         return ResponseEntity.status(HttpStatus.OK).body(updatedConcert);
     }
 
     @DeleteMapping("/concerts/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         concertService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }

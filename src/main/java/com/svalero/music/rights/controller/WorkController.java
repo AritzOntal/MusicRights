@@ -36,19 +36,19 @@ public class WorkController {
     }
 
     @GetMapping("/works/{id}")
-    public ResponseEntity<Work> get(@RequestParam Long id) {
+    public ResponseEntity<Work> get(@PathVariable Long id) {
         Work work = workService.findById(id);
         return ResponseEntity.ok().body(work);
     }
 
     @PostMapping("/works")
-    public ResponseEntity<Work> create(@Valid @RequestBody Work work) {
+    public ResponseEntity<Work> create(@RequestBody @Valid Work work) {
         workService.add(work);
-        return ResponseEntity.ok().body(work);
+        return ResponseEntity.status(HttpStatus.CREATED).body(work);
     }
 
     @PutMapping("/works/{id}")
-    public ResponseEntity<Work> update(@Valid @PathVariable Long id, @RequestBody Work work) {
+    public ResponseEntity<Work> update(@PathVariable Long id, @RequestBody @Valid Work work) {
         workService.edit(id, work);
         return ResponseEntity.ok().body(work);
     }

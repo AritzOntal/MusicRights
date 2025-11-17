@@ -1,7 +1,7 @@
-package com.svalero.music.rights;
+package com.svalero.music.rights.service;
 
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class MusicianServiceTest {
+public class DocumentServiceTest {
 }

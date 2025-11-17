@@ -5,6 +5,7 @@ import com.svalero.music.rights.domain.Document;
 import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.exception.ClaimNotFoundException;
 import com.svalero.music.rights.exception.DocumentNotFoundException;
+import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.repository.ClaimRepository;
 import com.svalero.music.rights.repository.DocumentRepository;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +27,16 @@ public class DocumentService {
         this.claimService = claimService;
     }
 
-    public void add(Document document) {
-        documentRepository.save(document);
-    }
+        public Document add(Document document) {
+            Long idClaim = document.getClaim().getId();
+
+            if (idClaim != null) {
+                Claim claim = claimRepository.findById(idClaim)
+                        .orElseThrow(ClaimNotFoundException::new);
+                document.setClaim(claim);
+            }
+            return documentRepository.save(document);
+        }
 
     public ResponseEntity<List<Document>> findAll(String type, Boolean complete, LocalDate createAd) {
 
