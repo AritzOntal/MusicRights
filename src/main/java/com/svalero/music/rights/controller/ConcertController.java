@@ -1,9 +1,11 @@
 package com.svalero.music.rights.controller;
 
 import com.svalero.music.rights.domain.Concert;
-import com.svalero.music.rights.domain.Musician;
+
 import com.svalero.music.rights.service.ConcertService;
-import org.springframework.stereotype.Controller;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,38 +20,42 @@ public class ConcertController {
     }
 
     @GetMapping("/concerts")
-    public List<Concert> getAll(){
-        List<Concert> concerts = concertService.findAll();
-        return concerts;
+    public ResponseEntity<List<Concert>> getAll(
+            @RequestParam(value = "city", required = false) String city,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "performed", required = false) Boolean performed
+    ) {
+        return concertService.findAll(city, status, performed);
     }
 
     @GetMapping("/concerts/{id}")
-    public Concert get(long id) {
+    public ResponseEntity<Concert> get( @PathVariable Long id) {
         Concert concert = concertService.findById(id);
-        return concert;
+        return ResponseEntity.status(HttpStatus.OK).body(concert);
     }
 
     @PostMapping("/concerts")
-    public void create(@RequestBody Concert concert) {
+    public ResponseEntity<Concert> create(@RequestBody @Valid Concert concert) {
         concertService.add(concert);
+        return ResponseEntity.status(HttpStatus.CREATED).body(concert);
     }
 
     @PutMapping("concerts/{id}")
-    public void update(@RequestBody Concert concert, @PathVariable long id) {
-        concertService.edit(id, concert);
-
+    public ResponseEntity<Concert> update(@RequestBody @Valid Concert concert, @PathVariable Long id) {
+        Concert updatedConcert = concertService.edit(id, concert);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedConcert);
     }
 
     @DeleteMapping("/concerts/{id}")
-    public void delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         concertService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
 
     //FILTRADO JPQL
     @GetMapping("concerts/by-musician/{id}")
-    public List<Concert> getByMusician(@PathVariable Long id) {
-        List <Concert> concertsOfMusician = concertService.findAllbyMusicianId(id);
-        return concertsOfMusician;
+    public ResponseEntity<List<Concert>> getByMusician(@PathVariable Long id) {
+        List<Concert> concertsOfMusician = concertService.findAllbyMusicianId(id);
+        return ResponseEntity.status(HttpStatus.OK).body(concertsOfMusician);
     }
-
 }

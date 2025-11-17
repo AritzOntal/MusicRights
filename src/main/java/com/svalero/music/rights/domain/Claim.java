@@ -1,6 +1,7 @@
 package com.svalero.music.rights.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table (name = "claims")
+@Table(name = "claims")
 
 public class Claim {
 
@@ -23,7 +24,7 @@ public class Claim {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull (message = "La referencia no puede ser nula")
+    @NotNull(message = "La referencia no puede ser nula")
     @Column
     private String reference;
 
@@ -39,13 +40,10 @@ public class Claim {
     @Column
     private boolean pending;
 
-    @DecimalMin(value = "1.0", message = "El valor no puede ser inferior a 1")
-    @DecimalMax(value = "5.0", message = "El valor no puede ser mas de 5")
-    @Column
-    private float priorityLeve;
+    //TODO INTEGRAR FLOAT
 
     @ManyToOne
-    @JoinColumn (name = "musician_id")
+    @JoinColumn(name = "musician_id")
     private Musician musician;
 
 }

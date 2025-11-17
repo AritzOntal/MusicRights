@@ -1,11 +1,13 @@
 package com.svalero.music.rights.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,13 +44,13 @@ public class Work {
 
     @PastOrPresent
     @Column
-    private LocalDateTime composedAt;
+    private LocalDate composedAt;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private boolean registred;
 
-
-    @ManyToMany //MUCHOS A MUCHOS
+    @JsonIgnore
+    @ManyToMany
     @JoinTable(
             name = "musician_work",
             joinColumns = @JoinColumn(name = "work_id"),

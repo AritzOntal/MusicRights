@@ -2,6 +2,7 @@ package com.svalero.music.rights.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,29 +15,30 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name= "concerts")
+@Table(name = "concerts")
 public class Concert {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @Column
     private String showTitle;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String city;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String province;
 
-    @Column  (nullable = false)
+    @Column(nullable = false)
     private LocalDate date;
 
     @Column
     private String status;
 
-    @NotNull (message = "El estado del concierto no puede ser nulo")
+    @NotNull(message = "El estado del concierto no puede ser nulo")
     @Column
     private boolean performed;
 

@@ -2,8 +2,11 @@ package com.svalero.music.rights.service;
 
 import com.svalero.music.rights.domain.Concert;
 import com.svalero.music.rights.domain.Musician;
+import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.repository.ConcertRepository;
 import com.svalero.music.rights.repository.MusicianRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,18 +15,35 @@ import java.util.List;
 public class ConcertService {
 
     private ConcertRepository concertRepository;
+    private MusicianRepository musicianRepository;
 
-    public ConcertService(ConcertRepository concertRepository) {
+    public ConcertService(ConcertRepository concertRepository, MusicianRepository musicianRepository) {
         this.concertRepository = concertRepository;
+        this.musicianRepository = musicianRepository;
     }
 
-    public void add(Concert concert) {
-        concertRepository.save(concert);
+    public Concert add(Concert concert) {
+        Long idMusician = concert.getMusician().getId();
+
+        if (idMusician != null) {
+            Musician musicianDb = musicianRepository.findById(idMusician)
+                    .orElseThrow(MusicianNotFoundException::new);
+            concert.setMusician(musicianDb);
+        }
+        return concertRepository.save(concert);
     }
 
-    public List<Concert> findAll() {
-        List<Concert> concerts = concertRepository.findAll();
-        return concerts;
+    public ResponseEntity<List<Concert>> findAll(String city, String status, Boolean performed) {
+        List<Concert> concerts;
+
+        if ((city != null && !city.isBlank()) & (status != null && !status.isBlank()) & (performed != null)) {
+            concerts = concertRepository.findByCityAndStatusAndPerformed(city, status, performed);
+            return new ResponseEntity<>(concerts, HttpStatus.OK);
+
+        } else {
+            concerts = concertRepository.findAll();
+            return new ResponseEntity<>(concerts, HttpStatus.OK);
+        }
     }
 
     public Concert findById(long id) {
@@ -56,15 +76,4 @@ public class ConcertService {
     public void delete(long id) {
         concertRepository.deleteById(id);
     }
-
-
-
-
-
-
-
-
-
-
-
 }
