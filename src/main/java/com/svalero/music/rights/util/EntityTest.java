@@ -117,4 +117,38 @@ public class EntityTest {
 
     }
 
+    public static Work testWork(Boolean correctRequest) {
+
+        if (!correctRequest) {
+            Work work = new Work();
+            work.setId(1L);
+            work.setIsrc("");
+            work.setDuration(2.3F);
+            work.setGenre("test");
+            work.setTitle("test");
+            work.setComposedAt(LocalDate.now());
+            work.setMusicians(new ArrayList<>());
+
+            return work;
+
+        }
+
+        List<Musician> musicians = new ArrayList<>();
+        Musician musician = new Musician();
+        musician.setId(1L);
+
+        Work work = new Work();
+        work.setId(1L);
+        work.setIsrc("ESABC2370123");
+        work.setDuration(2.3F);
+        work.setGenre("test");
+        work.setTitle("test");
+        work.setComposedAt(LocalDate.now());
+
+        work.setMusicians(musicians);
+        musicians.add(musician);
+
+        return work;
+    }
+
 }

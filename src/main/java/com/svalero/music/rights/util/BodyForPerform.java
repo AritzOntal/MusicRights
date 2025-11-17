@@ -67,4 +67,18 @@ public class BodyForPerform {
               }
             }
             """;
+
+    String bodyWork = """
+                {
+                  "title": "Little sister",
+                  "isrc": "ESABC2370123",
+                  "genre": "Stoner",
+                  "duration": 2.35,
+                  "composedAt": "2023-05-06",
+                  "registred": true,
+                  "musicians": [
+                    { "id": 1 } 
+                  ]
+                }
+            """;
 }
