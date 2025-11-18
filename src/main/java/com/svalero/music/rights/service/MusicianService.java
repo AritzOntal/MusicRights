@@ -5,6 +5,7 @@ import com.svalero.music.rights.domain.Claim;
 import com.svalero.music.rights.domain.Musician;
 import com.svalero.music.rights.domain.Work;
 import com.svalero.music.rights.exception.ClaimNotFoundException;
+import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.exception.WorkNotFoundException;
 import com.svalero.music.rights.repository.MusicianRepository;
 import com.svalero.music.rights.repository.WorkRepository;
@@ -59,14 +60,15 @@ public class MusicianService {
     }
 
     public Musician findById(Long id) {
-        Musician musician = musicianRepository.findById(id).orElse(null); //ME OLBIGA A PONER NULL PORQUE DEVUELVE UN OPTIONAL
+        Musician musician = musicianRepository.findById(id)
+                .orElseThrow(() -> new MusicianNotFoundException());
         return musician;
     }
 
 
     public Musician edit(long id, Musician updatedMusician) {
         Musician musician = musicianRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("musician_not_found"));
+                .orElseThrow(() -> new MusicianNotFoundException());
 
         musician.setFirstName(updatedMusician.getFirstName());
         musician.setLastName(updatedMusician.getLastName());

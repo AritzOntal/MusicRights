@@ -2,6 +2,7 @@ package com.svalero.music.rights.service;
 
 import com.svalero.music.rights.domain.Concert;
 import com.svalero.music.rights.domain.Musician;
+import com.svalero.music.rights.exception.ConcertNotFoundException;
 import com.svalero.music.rights.exception.MusicianNotFoundException;
 import com.svalero.music.rights.repository.ConcertRepository;
 import com.svalero.music.rights.repository.MusicianRepository;
@@ -48,7 +49,7 @@ public class ConcertService {
 
     public Concert findById(long id) {
         concertRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("concert_not_found"));
+                .orElseThrow(ConcertNotFoundException::new);
         return concertRepository.findById(id).get();
     }
 
@@ -60,7 +61,8 @@ public class ConcertService {
 
     public Concert edit(long id, Concert updateConcert) {
         Concert concert = concertRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("concert_not_found"));
+                .orElseThrow(ConcertNotFoundException::new);
+
         concert.setShowTitle(updateConcert.getShowTitle());
         concert.setCity(updateConcert.getCity());
         concert.setLongitude(updateConcert.getLongitude());
@@ -74,6 +76,8 @@ public class ConcertService {
     }
 
     public void delete(long id) {
+        concertRepository.findById(id)
+                .orElseThrow(ConcertNotFoundException::new);
         concertRepository.deleteById(id);
     }
 }
