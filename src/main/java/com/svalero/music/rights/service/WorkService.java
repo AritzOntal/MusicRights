@@ -32,19 +32,19 @@ public class WorkService {
         List<Musician> musicianList = work.getMusicians();
 
         if (musicianList != null) {
+
+            List<Musician> musiciansDb = new ArrayList<>();
+
             for (Musician musician : musicianList) {
                 long idMusician = musician.getId();
                 Musician musicianDb = musicianRepository.findById(idMusician)
                         .orElseThrow(MusicianNotFoundException::new);
+                musiciansDb.add(musicianDb);
 
-                List<Musician> newMusicianList = new ArrayList<>();
-                newMusicianList.add(musicianDb);
-                work.setMusicians(newMusicianList);
             }
-            return workRepository.save(work);
+            work.setMusicians(musicianList);
         }
-        workRepository.save(work);
-        return work;
+        return workRepository.save(work);
     }
 
     public ResponseEntity<List<Work>> findAll(Float duration, LocalDate composedAt, Boolean registred) {
@@ -90,10 +90,8 @@ public class WorkService {
     }
 
     public void delete(long id) {
-        workRepository.deleteById(id);
-    }
-
-    public Boolean existsById(Long id) {
-        return workRepository.existsById(id);
+        Work work = workRepository.findById(id)
+                .orElseThrow(WorkNotFoundException::new);
+        workRepository.delete(work);
     }
 }

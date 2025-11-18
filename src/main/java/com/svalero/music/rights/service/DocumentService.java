@@ -27,16 +27,16 @@ public class DocumentService {
         this.claimService = claimService;
     }
 
-        public Document add(Document document) {
-            Long idClaim = document.getClaim().getId();
+    public Document add(Document document) {
+        Long idClaim = document.getClaim().getId();
 
-            if (idClaim != null) {
-                Claim claim = claimRepository.findById(idClaim)
-                        .orElseThrow(ClaimNotFoundException::new);
-                document.setClaim(claim);
-            }
-            return documentRepository.save(document);
+        if (idClaim != null) {
+            Claim claim = claimRepository.findById(idClaim)
+                    .orElseThrow(ClaimNotFoundException::new);
+            document.setClaim(claim);
         }
+        return documentRepository.save(document);
+    }
 
     public ResponseEntity<List<Document>> findAll(String type, Boolean complete, LocalDate createAd) {
 
@@ -53,7 +53,8 @@ public class DocumentService {
     }
 
     public Document findById(Long id) {
-        return documentRepository.findById(id).orElseThrow(() -> new RuntimeException("document_not_found"));
+        return documentRepository.findById(id)
+                .orElseThrow(DocumentNotFoundException::new);
     }
 
     public Document findByClaim(Long id) throws ClaimNotFoundException {
@@ -69,7 +70,7 @@ public class DocumentService {
     public Document edit(Long id, Document updateDocument) {
 
         Document document = documentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("document_not_found"));
+                .orElseThrow(DocumentNotFoundException::new);
 
         document.setComplete(updateDocument.isComplete());
         document.setType(updateDocument.getType());
@@ -83,6 +84,8 @@ public class DocumentService {
     }
 
     public void delete(Long id) {
+        documentRepository.findById(id)
+                .orElseThrow(DocumentNotFoundException::new);
         documentRepository.deleteById(id);
     }
 }
