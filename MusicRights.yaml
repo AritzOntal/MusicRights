@@ -574,3 +574,169 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    Work:
+      type: object
+      required: [ title, isrc, genre, registred ]
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        title:
+          type: string
+          minLength: 1
+        isrc:
+          type: string
+          pattern: '^[A-Z]{2}[A-Z0-9]{3}\d{2}\d{5}$'
+          example: "ESABC2300123"
+          description: "Código único ISRC"
+        genre:
+          type: string
+          minLength: 1
+        duration:
+          type: number
+          format: float
+          description: "Duración en segundos/minutos"
+          minimum: 0.0
+        composedAt:
+          type: string
+          format: date
+          description: "Fecha de composición"
+        registred:
+          type: boolean
+      # Musicians esta ignorado por java por @JsonIgnore
+
+    Musician:
+      type: object
+      required: [ firstName, lastName, affiliated, dni ]
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        affiliated:
+          type: boolean
+        dni:
+          type: string
+          pattern: '^\d{8}[A-Za-z]$'
+          example: "12345678Z"
+        performanceFee:
+          type: number
+          format: float
+          minimum: 0.0
+        affiliatedNumber:
+          type: integer
+          format: int64
+        works:
+          type: array
+          items:
+            $ref: '#/components/schemas/Work'
+      # Claims esta ignorado por java por @JsonIgnore
+
+    Concert:
+      type: object
+      required: [ city, province, date, performed ]
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        showTitle:
+          type: string
+        city:
+          type: string
+          minLength: 1
+        province:
+          type: string
+          minLength: 1
+        date:
+          type: string
+          format: date
+        status:
+          type: string
+        performed:
+          type: boolean
+        ticketPrice:
+          type: number
+          format: float
+          minimum: 0.0
+        longitude:
+          type: number
+          format: double
+        latitude:
+          type: number
+          format: double
+        musician:
+          $ref: '#/components/schemas/Musician'
+
+    Claim:
+      type: object
+      required: [ reference ]
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        reference:
+          type: string
+          minLength: 1
+        status:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        pending:
+          type: boolean
+        musician:
+          $ref: '#/components/schemas/Musician'
+
+    Document:
+      type: object
+      required: [ type, filename ]
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        type:
+          type: string
+          minLength: 1
+        filename:
+          type: string
+          minLength: 1
+        size:
+          type: integer
+          format: int64
+          minimum: 0
+        createAt:
+          type: string
+          format: date
+        complete:
+          type: boolean
+        completionPercentage:
+          type: number
+          format: float
+          maximum: 100.0
+        claim:
+          $ref: '#/components/schemas/Claim'
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: "Error en los parametros de la llamada"
