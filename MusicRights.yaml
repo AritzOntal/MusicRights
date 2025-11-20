@@ -10,8 +10,6 @@ servers:
 paths:
   /claims:
     get:
-      tags:
-        - Claims
       summary: Obtener lista de reclamaciones por filtros
       parameters:
         - name: pending
@@ -42,8 +40,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     post:
-      tags:
-        - Claims
       summary: Crear nueva reclamación
       requestBody:
         required: true
@@ -67,8 +63,6 @@ paths:
 
   /claims/{id}:
     get:
-      tags:
-        - Claims
       summary: Buscar reclamación por su id
       parameters:
         - name: id
@@ -85,14 +79,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Claim'
         '404':
-          description: Not Found
+          description: La reclamación no existe
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     put:
-      tags:
-        - Claims
       summary: Modificar reclamación
       parameters:
         - name: id
@@ -117,14 +109,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
         '404':
-          description: Not Found
+          description: La reclamación no existe
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     delete:
-      tags:
-        - Claims
       summary: Eliminar reclamación.
       parameters:
         - name: id
@@ -137,7 +127,7 @@ paths:
         '204':
           description: No Content
         '404':
-          description: Not Found
+          description: La reclamación no existe
           content:
             application/json:
               schema:
@@ -145,8 +135,6 @@ paths:
 
   /claims/by-musician/{id}:
     get:
-      tags:
-        - Claims
       summary: Buscar las reclamaciones de un músico por su id
       parameters:
         - name: id
@@ -164,7 +152,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Claim'
         '404':
-          description: Musician Not Found
+          description: El músico no existe
           content:
             application/json:
               schema:
@@ -172,8 +160,6 @@ paths:
 
   /concerts:
     get:
-      tags:
-        - Concerts
       summary: Obtener lista de conciertos por músico
       parameters:
         - name: city
@@ -203,8 +189,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     post:
-      tags:
-        - Concerts
       summary: Crear concierto
       requestBody:
         required: true
@@ -228,9 +212,7 @@ paths:
 
   /concerts/{id}:
     get:
-      tags:
-        - Concerts
-      summary: Modificar concierto
+      summary: Obetener concierto por id
       parameters:
         - name: id
           in: path
@@ -251,8 +233,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     put:
-      tags:
-        - Concerts
       parameters:
         - name: id
           in: path
@@ -282,9 +262,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     delete:
-      tags:
-        - Concerts
-      summary:
+      summary: Eliminar concierto
       parameters:
         - name: id
           in: path
@@ -304,8 +282,6 @@ paths:
 
   /concerts/by-musician/{id}:
     get:
-      tags:
-        - Concerts
       summary: Obtener conciertos de un músico por id de concierto
       parameters:
         - name: id
@@ -324,6 +300,276 @@ paths:
                   $ref: '#/components/schemas/Concert'
         '404':
           description: Musician Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /documents:
+    get:
+      summary: Obtener lista de documentos por filtrados
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+        - name: complete
+          in: query
+          schema:
+            type: boolean
+        - name: createAd
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Document'
+        '400':
+          description: Bad Request (Parámetros de consulta inválidos)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Completar campos documento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Document'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /documents/{id}:
+    get:
+      summary: Obtener documento por id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Modificar documento
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Document'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Eliminar documento
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /documents/by-claim/{id}:
+    get:
+      summary: Obtener documento por id de reclamación
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        '404':
+          description: Claim Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /works:
+    get:
+      summary: Listar obras musicales con opción a 3 filtros
+      parameters:
+        - name: duration
+          in: query
+          schema:
+            type: number
+            format: float
+        - name: composedAt
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: registred
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Work'
+        '400':
+          description: Bad Request (Parámetros de consulta inválidos)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Registrar nueva obra
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Work'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Work'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /works/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Work'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Modificar obra
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Work'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
           content:
             application/json:
               schema:
