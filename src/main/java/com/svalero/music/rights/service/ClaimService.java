@@ -32,6 +32,7 @@ public class ClaimService {
                         .orElseThrow(MusicianNotFoundException::new);
                 claim.setMusician(musicianDb);
             }
+            
             return claimRepository.save(claim);
         }
 
