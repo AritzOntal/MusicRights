@@ -10,12 +10,12 @@ servers:
 paths:
   /claims:
     get:
-      tags: [Claims]
+      tags: [ Claims ]
       summary: Obtener lista de reclamaciones por filtros
       parameters:
-        - {name: pending, in: query, schema: {type: boolean}}
-        - {name: status, in: query, schema: {type: string}}
-        - {name: type, in: query, schema: {type: string}}
+        - { name: pending, in: query, schema: { type: boolean } }
+        - { name: status, in: query, schema: { type: string } }
+        - { name: type, in: query, schema: { type: string } }
       responses:
         '200':
           description: OK
@@ -32,7 +32,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     post:
-      tags: [Claims]
+      tags: [ Claims ]
       summary: Crear nueva reclamación
       requestBody:
         required: true
@@ -53,3 +53,83 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /claims/{id}:
+    get:
+      tags: [ Claims ]
+      summary: Buscar reclamación su id
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer, format: int64 } }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags: [ Claims ]
+      summary: Actualizar reclamación
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer, format: int64 } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Claim'
+      responses:
+        '200': { description: OK }
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags: [ Claims ]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer, format: int64 } }
+      responses:
+        '204': { description: No Content }
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    /claims/by-musician/{id}:
+      get:
+        tags: [ Claims ]
+        summary: Buscar reclamaciones por id del músico
+        parameters:
+          - { name: id, in: path, required: true, schema: { type: integer, format: int64 } }
+        responses:
+          '200':
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Claim'
+          '404':
+            description: Musician Not Found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+
+
