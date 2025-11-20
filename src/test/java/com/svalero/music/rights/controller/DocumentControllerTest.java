@@ -93,8 +93,8 @@ public class DocumentControllerTest {
 
         Document document = EntityTest.testDocument(true);
 
-        Mockito.when(documentService.add(Mockito.any(Document.class)))
-                .thenReturn(Mockito.mock(Document.class));
+        Mockito.when(documentService.add(document))
+                .thenReturn(document);
 
         mockMvc.perform(post("/documents")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -261,7 +261,7 @@ public class DocumentControllerTest {
         long id = 1L;
 
         Mockito.when(documentService.findByClaim(Mockito.anyLong()))
-                .thenReturn(Mockito.mock(Document.class));//COMO ES UNA LISTA DE TIPOS DEVOLVERA ARRAYLIST SIN MÁS
+                .thenReturn(Mockito.mock(Document.class));
 
         mockMvc.perform(get("/documents/by-claim/{id}", id))
                 .andExpect(status().isOk());
