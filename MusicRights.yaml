@@ -1,0 +1,55 @@
+openapi: 3.0.3
+info:
+  title: Music Rights
+  description: API para la gestión y automatización de reclamo de Royalties.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Servidor Local
+
+paths:
+  /claims:
+    get:
+      tags: [Claims]
+      summary: Obtener lista de reclamaciones por filtros
+      parameters:
+        - {name: pending, in: query, schema: {type: boolean}}
+        - {name: status, in: query, schema: {type: string}}
+        - {name: type, in: query, schema: {type: string}}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Claim'
+        '400':
+          description: Bad Request. Parámetros de la consulta no válidos.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags: [Claims]
+      summary: Crear nueva reclamación
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Claim'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
