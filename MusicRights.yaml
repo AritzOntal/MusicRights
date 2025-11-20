@@ -39,6 +39,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
     post:
       summary: Crear nueva reclamación
       requestBody:
@@ -157,6 +163,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
 
   /concerts:
     get:
@@ -188,6 +200,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
     post:
       summary: Crear concierto
       requestBody:
@@ -232,6 +251,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
     put:
       parameters:
         - name: id
@@ -304,6 +329,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+
 
   /documents:
     get:
@@ -336,6 +368,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
     post:
       summary: Completar campos documento
       requestBody:
@@ -380,6 +418,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
     put:
       summary: Modificar documento
       parameters:
@@ -451,6 +495,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
 
   /works:
     get:
@@ -484,6 +534,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
     post:
       summary: Registrar nueva obra
       requestBody:
@@ -527,6 +583,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
     put:
       summary: Modificar obra
       parameters:
@@ -740,3 +802,13 @@ components:
         message:
           type: string
           example: "Error en los parametros de la llamada"
+
+    InternalError:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 500
+        message:
+          type: string
+          example: "Error inesperado en el servidor."
