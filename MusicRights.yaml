@@ -10,12 +10,22 @@ servers:
 paths:
   /claims:
     get:
-      tags: [ Claims ]
+      tags:
+        - Claims
       summary: Obtener lista de reclamaciones por filtros
       parameters:
-        - { name: pending, in: query, schema: { type: boolean } }
-        - { name: status, in: query, schema: { type: string } }
-        - { name: type, in: query, schema: { type: string } }
+        - name: pending
+          in: query
+          schema:
+            type: boolean
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -32,7 +42,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     post:
-      tags: [ Claims ]
+      tags:
+        - Claims
       summary: Crear nueva reclamación
       requestBody:
         required: true
@@ -53,12 +64,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+
   /claims/{id}:
     get:
-      tags: [ Claims ]
-      summary: Buscar reclamación su id
+      tags:
+        - Claims
+      summary: Buscar reclamación por su id
       parameters:
-        - { name: id, in: path, required: true, schema: { type: integer, format: int64 } }
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: OK
@@ -73,10 +91,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     put:
-      tags: [ Claims ]
-      summary: Actualizar reclamación
+      tags:
+        - Claims
+      summary: Modificar reclamación
       parameters:
-        - { name: id, in: path, required: true, schema: { type: integer, format: int64 } }
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       requestBody:
         required: true
         content:
@@ -84,7 +108,8 @@ paths:
             schema:
               $ref: '#/components/schemas/Claim'
       responses:
-        '200': { description: OK }
+        '200':
+          description: OK
         '400':
           description: Bad Request
           content:
@@ -98,11 +123,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
     delete:
-      tags: [ Claims ]
+      tags:
+        - Claims
+      summary: Eliminar reclamación.
       parameters:
-        - { name: id, in: path, required: true, schema: { type: integer, format: int64 } }
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
-        '204': { description: No Content }
+        '204':
+          description: No Content
         '404':
           description: Not Found
           content:
@@ -110,26 +143,188 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-    /claims/by-musician/{id}:
-      get:
-        tags: [ Claims ]
-        summary: Buscar reclamaciones por id del músico
-        parameters:
-          - { name: id, in: path, required: true, schema: { type: integer, format: int64 } }
-        responses:
-          '200':
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Claim'
-          '404':
-            description: Musician Not Found
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResponse'
+  /claims/by-musician/{id}:
+    get:
+      tags:
+        - Claims
+      summary: Buscar las reclamaciones de un músico por su id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Claim'
+        '404':
+          description: Musician Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
+  /concerts:
+    get:
+      tags:
+        - Concerts
+      summary: Obtener lista de conciertos por músico
+      parameters:
+        - name: city
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: performed
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Concert'
+        '400':
+          description: Bad Request (Parámetros de consulta inválidos)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - Concerts
+      summary: Crear concierto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Concert'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Concert'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
+  /concerts/{id}:
+    get:
+      tags:
+        - Concerts
+      summary: Modificar concierto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Concert'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - Concerts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Concert'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Concerts
+      summary:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
+  /concerts/by-musician/{id}:
+    get:
+      tags:
+        - Concerts
+      summary: Obtener conciertos de un músico por id de concierto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Concert'
+        '404':
+          description: Musician Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
