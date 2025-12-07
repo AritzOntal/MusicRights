@@ -36,8 +36,8 @@ public class ConcertController {
 
     @PostMapping("/concerts")
     public ResponseEntity<Concert> create(@RequestBody @Valid Concert concert) {
-        concertService.add(concert);
-        return ResponseEntity.status(HttpStatus.CREATED).body(concert);
+        Concert saved = concertService.add(concert);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @PutMapping("concerts/{id}")
