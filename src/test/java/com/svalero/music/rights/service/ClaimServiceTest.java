@@ -149,8 +149,6 @@ public class ClaimServiceTest {
     @Test
     void testModifyNotFound() {
         Long noExist = 1L;
-        Claim claimDb = new Claim();
-        claimDb.setId(noExist);
 
         Claim newClaim = new Claim();
         newClaim.setReference("12243221");
@@ -164,7 +162,6 @@ public class ClaimServiceTest {
 
 
     //DELETE
-
         @Test
         void testDeleteOk() {
             Long existId = 1L;
