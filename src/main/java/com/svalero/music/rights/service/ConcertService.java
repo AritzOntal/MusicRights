@@ -65,6 +65,8 @@ public class ConcertService {
 
         concert.setShowTitle(updateConcert.getShowTitle());
         concert.setCity(updateConcert.getCity());
+        concert.setProvince(updateConcert.getProvince());
+        concert.setTicketPrice(updateConcert.getTicketPrice());
         concert.setLongitude(updateConcert.getLongitude());
         concert.setPerformed(updateConcert.isPerformed());
         concert.setLatitude(updateConcert.getLatitude());
