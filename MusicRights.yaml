@@ -41,6 +41,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Bad Request
                 message: Parámetros de filtro inválidos o mal formados
         '500':
           description: Internal Server Error
@@ -74,6 +75,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Validation Error
                 message: Datos de la reclamación incompletos o inválidos
 
   /claims/{id}:
@@ -101,6 +103,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: No se ha encontrado ninguna reclamación con el ID proporcionado
     put:
       summary: Modificar reclamación
@@ -128,6 +131,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Bad Request
                 message: Error de validación en los datos de actualización
         '404':
           description: La reclamación no existe
@@ -137,6 +141,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: No se puede actualizar una reclamación que no existe
     delete:
       summary: Eliminar reclamación.
@@ -158,6 +163,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: No se puede eliminar. ID de reclamación no encontrado
 
   /claims/by-musician/{id}:
@@ -186,6 +192,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: El músico especificado no existe
         '500':
           description: Internal Server Error
@@ -229,6 +236,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Bad Request
                 message: Los parámetros de búsqueda de conciertos son inválidos
         '500':
           description: Internal Server Error
@@ -262,6 +270,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Validation Error
                 message: Faltan datos obligatorios del concierto
 
   /concerts/{id}:
@@ -288,6 +297,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: Concierto no encontrado con el ID indicado
         '500':
           description: Internal Server Error
@@ -323,6 +333,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Bad Request
                 message: Datos inválidos para la actualización del concierto
         '404':
           description: Not Found
@@ -332,6 +343,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: No se encuentra el concierto a modificar
     delete:
       summary: Eliminar concierto
@@ -353,6 +365,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: No se encuentra el concierto a eliminar
 
   /concerts/by-musician/{id}:
@@ -381,6 +394,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: Músico no encontrado
         '500':
           description: Internal Server Error
@@ -425,6 +439,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Bad Request
                 message: Filtros de documentos inválidos
         '500':
           description: Internal Server Error
@@ -458,6 +473,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Validation Error
                 message: Datos del documento incompletos
 
   /documents/{id}:
@@ -484,6 +500,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: Documento no encontrado
         '500':
           description: Internal Server Error
@@ -520,6 +537,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Bad Request
                 message: Formato de documento inválido
         '404':
           description: Not Found
@@ -529,6 +547,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: No se puede modificar un documento inexistente
     delete:
       summary: Eliminar documento
@@ -550,6 +569,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: No se puede eliminar el documento solicitado
 
   /documents/by-claim/{id}:
@@ -576,6 +596,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: Reclamación asociada no encontrada
         '500':
           description: Internal Server Error
@@ -621,6 +642,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Bad Request
                 message: Parámetros de filtro de obras incorrectos
         '500':
           description: Internal Server Error
@@ -654,6 +676,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Validation Error
                 message: Datos de la obra inválidos o ISRC duplicado
 
   /works/{id}:
@@ -679,6 +702,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: Obra musical no encontrada
         '500':
           description: Internal Server Error
@@ -715,6 +739,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Bad Request
                 message: Error de validación en los datos de la obra
         '404':
           description: Not Found
@@ -724,6 +749,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: No se puede actualizar una obra inexistente
     delete:
       parameters:
@@ -744,6 +770,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: No se puede eliminar la obra solicitada
 
   /musicians:
@@ -774,7 +801,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
-                message: Formato de DNI incorrecto en la búsqueda
+                title: Bad Request
+                message: Formato de DNI incorrecto
         '500':
           description: Internal Server Error
           content:
@@ -783,7 +811,7 @@ paths:
                 $ref: '#/components/schemas/InternalError'
               example:
                 code: 500
-                message: Error al recuperar el listado de músicos
+                message: Error al recuperar la lista de músicos
     post:
       summary: Registrar nuevo músico
       requestBody:
@@ -807,6 +835,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Validation Error
                 message: El músico ya existe o el DNI es inválido
 
   /musicians/{id}:
@@ -833,6 +862,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: Músico no encontrado
         '500':
           description: Internal Server Error
@@ -869,6 +899,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 400
+                title: Bad Request
                 message: Datos de afiliación incompletos
         '404':
           description: Not Found
@@ -878,6 +909,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: No se puede editar un músico inexistente
     delete:
       summary: Eliminar músico
@@ -899,6 +931,7 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 code: 404
+                title: Not Found
                 message: El músico a eliminar no existe
 
 components:
@@ -1057,10 +1090,14 @@ components:
 
     ErrorResponse:
       type: object
+      description: Estructura estándar para respuestas de error
       properties:
         code:
           type: integer
           description: Código de estado HTTP
+        title:
+          type: string
+          description: Título del error
         message:
           type: string
           description: Descripción del error
