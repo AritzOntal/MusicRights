@@ -39,12 +39,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Parámetros de filtro inválidos o mal formados
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalError'
+              example:
+                code: 500
+                message: Error inesperado al recuperar la lista de reclamaciones
     post:
       summary: Crear nueva reclamación
       requestBody:
@@ -66,6 +72,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Datos de la reclamación incompletos o inválidos
 
   /claims/{id}:
     get:
@@ -90,6 +99,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: No se ha encontrado ninguna reclamación con el ID proporcionado
     put:
       summary: Modificar reclamación
       parameters:
@@ -114,12 +126,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Error de validación en los datos de actualización
         '404':
           description: La reclamación no existe
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: No se puede actualizar una reclamación que no existe
     delete:
       summary: Eliminar reclamación.
       parameters:
@@ -138,6 +156,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: No se puede eliminar. ID de reclamación no encontrado
 
   /claims/by-musician/{id}:
     get:
@@ -163,12 +184,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: El músico especificado no existe
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalError'
+              example:
+                code: 500
+                message: Error al buscar las reclamaciones del músico
 
   /concerts:
     get:
@@ -195,18 +222,23 @@ paths:
                 items:
                   $ref: '#/components/schemas/Concert'
         '400':
-          description: Bad Request (Parámetros de consulta inválidos)
+          description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
+              example:
+                code: 400
+                message: Los parámetros de búsqueda de conciertos son inválidos
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalError'
+              example:
+                code: 500
+                message: Error interno al recuperar conciertos
     post:
       summary: Crear concierto
       requestBody:
@@ -228,6 +260,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Faltan datos obligatorios del concierto
 
   /concerts/{id}:
     get:
@@ -251,12 +286,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: Concierto no encontrado con el ID indicado
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalError'
+              example:
+                code: 500
+                message: Error inesperado al obtener el concierto
     put:
       parameters:
         - name: id
@@ -280,12 +321,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Datos inválidos para la actualización del concierto
         '404':
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: No se encuentra el concierto a modificar
     delete:
       summary: Eliminar concierto
       parameters:
@@ -304,6 +351,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: No se encuentra el concierto a eliminar
 
   /concerts/by-musician/{id}:
     get:
@@ -329,13 +379,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: Músico no encontrado
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalError'
-
+              example:
+                code: 500
+                message: Error al recuperar los conciertos del músico
 
   /documents:
     get:
@@ -363,17 +418,23 @@ paths:
                 items:
                   $ref: '#/components/schemas/Document'
         '400':
-          description: Bad Request (Parámetros de consulta inválidos)
+          description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Filtros de documentos inválidos
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalError'
+              example:
+                code: 500
+                message: Error al listar los documentos
     post:
       summary: Completar campos documento
       requestBody:
@@ -395,6 +456,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Datos del documento incompletos
 
   /documents/{id}:
     get:
@@ -418,12 +482,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: Documento no encontrado
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalError'
+              example:
+                code: 500
+                message: Error interno al recuperar el documento
     put:
       summary: Modificar documento
       parameters:
@@ -448,12 +518,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Formato de documento inválido
         '404':
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: No se puede modificar un documento inexistente
     delete:
       summary: Eliminar documento
       parameters:
@@ -472,6 +548,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: No se puede eliminar el documento solicitado
 
   /documents/by-claim/{id}:
     get:
@@ -495,12 +574,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: Reclamación asociada no encontrada
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalError'
+              example:
+                code: 500
+                message: Error al recuperar el documento de la reclamación
 
   /works:
     get:
@@ -529,17 +614,23 @@ paths:
                 items:
                   $ref: '#/components/schemas/Work'
         '400':
-          description: Bad Request (Parámetros de consulta inválidos)
+          description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Parámetros de filtro de obras incorrectos
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalError'
+              example:
+                code: 500
+                message: Error del servidor al listar obras
     post:
       summary: Registrar nueva obra
       requestBody:
@@ -561,6 +652,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Datos de la obra inválidos o ISRC duplicado
 
   /works/{id}:
     get:
@@ -583,12 +677,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: Obra musical no encontrada
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalError'
+              example:
+                code: 500
+                message: Error inesperado al recuperar la obra
     put:
       summary: Modificar obra
       parameters:
@@ -613,12 +713,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Error de validación en los datos de la obra
         '404':
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: No se puede actualizar una obra inexistente
     delete:
       parameters:
         - name: id
@@ -636,6 +742,164 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: No se puede eliminar la obra solicitada
+
+  /musicians:
+    get:
+      summary: Listar músicos
+      parameters:
+        - name: dni
+          in: query
+          schema:
+            type: string
+        - name: affiliated
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Musician'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Formato de DNI incorrecto en la búsqueda
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+              example:
+                code: 500
+                message: Error al recuperar el listado de músicos
+    post:
+      summary: Registrar nuevo músico
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Musician'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Musician'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: El músico ya existe o el DNI es inválido
+
+  /musicians/{id}:
+    get:
+      summary: Obtener músico por id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Musician'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: Músico no encontrado
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalError'
+              example:
+                code: 500
+                message: Error inesperado al obtener datos del músico
+    put:
+      summary: Modificar datos del músico
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Musician'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 400
+                message: Datos de afiliación incompletos
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: No se puede editar un músico inexistente
+    delete:
+      summary: Eliminar músico
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: El músico a eliminar no existe
 
 components:
   schemas:
@@ -669,7 +933,6 @@ components:
           description: "Fecha de composición"
         registred:
           type: boolean
-      # Musicians esta ignorado por java por @JsonIgnore
 
     Musician:
       type: object
@@ -703,7 +966,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Work'
-      # Claims esta ignorado por java por @JsonIgnore
 
     Concert:
       type: object
@@ -798,17 +1060,17 @@ components:
       properties:
         code:
           type: integer
-          example: 400
+          description: Código de estado HTTP
         message:
           type: string
-          example: "Error en los parametros de la llamada"
+          description: Descripción del error
 
     InternalError:
       type: object
       properties:
         code:
           type: integer
-          example: 500
+          description: Código de estado HTTP
         message:
           type: string
-          example: "Error inesperado en el servidor."
+          description: Descripción del error
