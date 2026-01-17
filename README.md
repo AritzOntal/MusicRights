@@ -1,4 +1,4 @@
-# Music Rights API
+# MusicRights API
 
 API REST para la gestión de derechos musicales y royalties. Implementada en **Java 21** y **Spring Boot 3.2.5**.
 
