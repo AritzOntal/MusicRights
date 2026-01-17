@@ -86,7 +86,7 @@ public class ConcertControllerTest {
         Concert concert = EntityTest.testConcert(true);
 
         Mockito.when(concertService.add(Mockito.any(Concert.class)))
-                .thenReturn(Mockito.mock(Concert.class));
+                .thenReturn(concert);
 
         mockMvc.perform(post("/concerts")
                         .contentType(MediaType.APPLICATION_JSON)
