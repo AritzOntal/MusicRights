@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "showTitle": "Gran Reserva Tour",
+    "city": "Madrid",
+    "province": "Madrid",
+    "date": "2026-05-20",
+    "status": "CONFIRMED",
+    "performed": false,
+    "ticketPrice": 45.50,
+    "longitude": 40.416775,
+    "latitude": -3.70379,
+    "musician": {
+      "id": 1,
+      "firstName": "Joshua",
+      "lastName": "Homme",
+      "dni": "45712110J"
+    }
+  },
+  {
+    "id": 2,
+    "showTitle": "Indie Fest",
+    "city": "Zaragoza",
+    "province": "Zaragoza",
+    "date": "2026-06-15",
+    "status": "PENDING",
+    "performed": true,
+    "ticketPrice": 20.00,
+    "longitude": 41.648823,
+    "latitude": -0.889085,
+    "musician": {
+      "id": 2,
+      "firstName": "Dave",
+      "lastName": "Grohl",
+      "dni": "98765432Y"
+    }
+  }
+]

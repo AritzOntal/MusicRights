@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPath": "/musicians",
+    "bodyPatterns": [
+      { "contains": "\"dni\": \"INVALID\"" }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "error-400-dni-invalid.json"
+  }
+}
