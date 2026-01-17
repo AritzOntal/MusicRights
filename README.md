@@ -8,6 +8,7 @@ API REST para la gestión de derechos musicales y royalties. Implementada en **J
 * **Datos:** MariaDB (Prod/Dev)
 * **Infraestructura:** Docker, Docker Compose
 * **Documentación:** OpenAPI 3.0
+* **Mocking:** WireMock Standalone
 * **Testing:** JUnit 5, Mockito
 
 ## 🏗 Arquitectura
@@ -44,4 +45,13 @@ La definición oficial de la API se encuentra disponible en el archivo de especi
 * `POST /works` : Registro de obra y asociación de autores.
 * `GET /claims` : Consulta de reclamaciones filtrada.
 * `POST /claims` : Creación de proceso de reclamación.
+
+### 3. Entorno de Mocking (WireMock)
+
+Para desarrollo frontend o pruebas aisladas sin base de datos, el proyecto incluye un servidor de Mocks configurado con respuestas predefinidas (JSON).
+
+*Las definiciones de los endpoints simulados se encuentran en la carpeta mappings.*
+
+### Autor: Aritz Ontalvilla
+
 
