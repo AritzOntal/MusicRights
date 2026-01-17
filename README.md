@@ -50,6 +50,11 @@ La definición oficial de la API se encuentra disponible en el archivo de especi
 
 Para desarrollo frontend o pruebas aisladas sin base de datos, el proyecto incluye un servidor de Mocks configurado con respuestas predefinidas (JSON).
 
+```bash
+# Ejecutar WireMock (Puerto 8081)
+java -jar wiremock-standalone-3.13.2.jar --port 8081 --verbose
+```
+
 *Las definiciones de los endpoints simulados se encuentran en la carpeta mappings.*
 
 ### Autor: Aritz Ontalvilla
