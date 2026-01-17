@@ -91,7 +91,7 @@ public class WorkControllerTest {
         Work work = EntityTest.testWork(true);
 
         Mockito.when(workService.add(Mockito.any(Work.class)))
-                .thenReturn(Mockito.mock(Work.class));
+                .thenReturn(work);
 
         mockMvc.perform(post("/works")
                         .contentType(MediaType.APPLICATION_JSON)
