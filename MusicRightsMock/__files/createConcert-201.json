@@ -1,0 +1,11 @@
+{
+  "id": 99,
+  "showTitle": "Concierto Creado",
+  "city": "Barcelona",
+  "province": "Barcelona",
+  "date": "2026-12-01",
+  "performed": false,
+  "ticketPrice": 0.0,
+  "longitude": 2.166667,
+  "latitude": 41.383331
+}
