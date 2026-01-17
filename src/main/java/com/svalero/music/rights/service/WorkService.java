@@ -42,7 +42,7 @@ public class WorkService {
                 musiciansDb.add(musicianDb);
 
             }
-            work.setMusicians(musicianList);
+            work.setMusicians(musiciansDb);
         }
         return workRepository.save(work);
     }
