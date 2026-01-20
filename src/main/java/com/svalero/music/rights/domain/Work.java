@@ -1,6 +1,7 @@
 package com.svalero.music.rights.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -40,7 +41,7 @@ public class Work {
 
     @Positive
     @Column
-    private float duration;
+    private Float duration;
 
     @PastOrPresent
     @Column
@@ -49,7 +50,7 @@ public class Work {
     @Column(nullable = false)
     private boolean registred;
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany
     @JoinTable(
             name = "musician_work",
