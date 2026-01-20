@@ -18,8 +18,13 @@ import java.util.List;
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Long> {
 
-    @Query ("SELECT c FROM Document d JOIN d.claim c WHERE c.id = :id")
+    @Query ("SELECT d FROM Document d JOIN d.claim c WHERE c.id = :id")
     Document findByClaimId(@Param ("id") Long claimId);
 
-    List <Document> findByTypeAndCompleteAndCreateAt(String type, Boolean complete, LocalDate createAt);
+    @Query("SELECT d FROM Document d WHERE " +
+            "(:type IS NULL OR d.type = :type) AND " +
+            "(:complete IS NULL OR d.complete = :complete) AND " +
+            "(:createAt IS NULL OR d.createAt = :createAt)")
+
+    List <Document> findByFilters(String type, Boolean complete, LocalDate createAt);
 }

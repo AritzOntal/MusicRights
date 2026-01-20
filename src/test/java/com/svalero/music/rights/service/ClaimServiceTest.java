@@ -51,12 +51,11 @@ public class ClaimServiceTest {
                 new Claim(2L, "REF-002", "IN_PROGRESS", "ROYALTIES", "Reclamación de impagos de derechos.", true, musician)
         );
 
-        when(claimRepository.findAll()).thenReturn(claims);
+        when(claimRepository.findByFilters(null, null, null)).thenReturn(claims);
 
         ResponseEntity<List<Claim>> claimsMocked = claimService.findAll(null, null, null);
         List<Claim> result = claimsMocked.getBody();
         assertEquals(2, result.size());
-
     }
 
     //ADD

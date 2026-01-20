@@ -37,7 +37,7 @@ public class Document {
     private LocalDate createAt;
 
     @Column
-    private boolean complete;
+    private Boolean complete;
 
     @DecimalMax("100.0")
     @Column

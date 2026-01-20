@@ -36,15 +36,8 @@ public class ConcertService {
 
     public ResponseEntity<List<Concert>> findAll(String city, String status, Boolean performed) {
         List<Concert> concerts;
-
-        if ((city != null && !city.isBlank()) & (status != null && !status.isBlank()) & (performed != null)) {
-            concerts = concertRepository.findByCityAndStatusAndPerformed(city, status, performed);
-            return new ResponseEntity<>(concerts, HttpStatus.OK);
-
-        } else {
-            concerts = concertRepository.findAll();
-            return new ResponseEntity<>(concerts, HttpStatus.OK);
-        }
+        concerts = concertRepository.findByFilters(city, status, performed);
+        return new ResponseEntity<>(concerts, HttpStatus.OK);
     }
 
     public Concert findById(long id) {

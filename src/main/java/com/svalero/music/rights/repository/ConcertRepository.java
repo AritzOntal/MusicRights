@@ -17,7 +17,11 @@ public interface ConcertRepository extends JpaRepository<Concert, Long> {
     @Query("SELECT c FROM Concert c JOIN c.musician m WHERE m.id = :id")
     List<Concert> findByMusicianId(@Param("id") Long id);
 
-    List<Concert> findByCityAndStatusAndPerformed(String city, String status, Boolean performed);
+    @Query("SELECT c FROM Concert c WHERE " +
+            "(:city IS NULL OR c.city = :city) AND " +
+            "(:status IS NULL OR c.status = :status) AND " +
+            "(:performed IS NULL OR c.performed = :performed)")
+    List<Concert> findByFilters(String city, String status, Boolean performed);
 
 }
 

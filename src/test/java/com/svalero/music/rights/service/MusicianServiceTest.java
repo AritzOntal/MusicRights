@@ -49,7 +49,7 @@ public class MusicianServiceTest {
                 new Musician(null, "Maria", "Lopez", LocalDate.of(1992, 11, 2), false, "87654321B", 310.75f, 984531256L, List.of(), List.of())
         );
 
-        when(musicianRepository.findAll()).thenReturn(musiciansList);
+        when(musicianRepository.findByFilters(null, null, null)).thenReturn(musiciansList);
 
         ResponseEntity<List<Musician>> musiciansMocked = musicianService.findAll(null, null, null);
 

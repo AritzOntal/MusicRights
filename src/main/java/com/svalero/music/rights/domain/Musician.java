@@ -34,7 +34,7 @@ public class Musician {
     private LocalDate birthDate;
 
     @Column(nullable = false)
-    private boolean affiliated;
+    private Boolean affiliated;
 
     @Pattern(
             regexp = "^\\d{8}[A-Za-z]$",
@@ -45,7 +45,7 @@ public class Musician {
 
     @Positive
     @Column
-    private float performanceFee;
+    private Float performanceFee;
 
     @Column(name = "affiliated_number")
     private long affiliatedNumber;

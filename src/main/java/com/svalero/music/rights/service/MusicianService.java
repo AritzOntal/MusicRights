@@ -49,14 +49,8 @@ public class MusicianService {
     public ResponseEntity<List<Musician>> findAll(Float performanceFee, Boolean affiliated, LocalDate birthDate) {
         List<Musician> musician;
 
-        if (performanceFee != null && affiliated != null && birthDate != null) {
-            musician = musicianRepository.findByPerformanceFeeAndAffiliatedAndBirthDate(performanceFee, affiliated, birthDate);
-            return new ResponseEntity<>(musician, HttpStatus.OK);
-
-        } else {
-            musician = musicianRepository.findAll();
-            return new ResponseEntity<>(musician, HttpStatus.OK);
-        }
+        musician = musicianRepository.findByFilters(performanceFee, affiliated, birthDate);
+        return new ResponseEntity<>(musician, HttpStatus.OK);
     }
 
     public Musician findById(Long id) {
@@ -73,7 +67,7 @@ public class MusicianService {
         musician.setFirstName(updatedMusician.getFirstName());
         musician.setLastName(updatedMusician.getLastName());
         musician.setBirthDate(updatedMusician.getBirthDate());
-        musician.setAffiliated(updatedMusician.isAffiliated());
+        musician.setAffiliated(updatedMusician.getAffiliated());
         musician.setDni(updatedMusician.getDni());
         musician.setAffiliatedNumber(updatedMusician.getAffiliatedNumber());
 
