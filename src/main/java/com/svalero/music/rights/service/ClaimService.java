@@ -24,31 +24,24 @@ public class ClaimService {
         this.musicianRepository = musicianRepository;
     }
 
-        public Claim add(Claim claim) {
-            Long idMusician = claim.getMusician().getId();
+    public Claim add(Claim claim) {
+        Long idMusician = claim.getMusician().getId();
 
-            if (idMusician != null) {
-                Musician musicianDb = musicianRepository.findById(idMusician)
-                        .orElseThrow(MusicianNotFoundException::new);
-                claim.setMusician(musicianDb);
-            }
-            
-            return claimRepository.save(claim);
+        if (idMusician != null) {
+            Musician musicianDb = musicianRepository.findById(idMusician)
+                    .orElseThrow(MusicianNotFoundException::new);
+            claim.setMusician(musicianDb);
         }
+
+        return claimRepository.save(claim);
+    }
 
     public ResponseEntity<List<Claim>> findAll(String status, String type, Boolean pending) {
 
         List<Claim> claims;
+        claims = claimRepository.findByFilters(status, type, pending);
+        return new ResponseEntity<>(claims, HttpStatus.OK);
 
-        if (pending != null & (status != null && !status.isBlank()) & (type != null && !type.isBlank())) {
-
-            claims = claimRepository.findByStatusAndTypeAndPending(status, type, pending);
-            return new ResponseEntity<>(claims, HttpStatus.OK);
-
-        } else {
-            claims = claimRepository.findAll();
-            return new ResponseEntity<>(claims, HttpStatus.OK);
-        }
     }
 
     public Claim findById(Long id) throws ClaimNotFoundException {

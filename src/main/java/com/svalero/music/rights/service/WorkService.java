@@ -50,15 +50,8 @@ public class WorkService {
     public ResponseEntity<List<Work>> findAll(Float duration, LocalDate composedAt, Boolean registred) {
 
         List<Work> works;
-
-        if (duration != null & composedAt != null & registred != null) {
-            works = workRepository.findByDurationAndComposedAtAndRegistred(duration, composedAt, registred);
-            return new ResponseEntity<>(works, HttpStatus.OK);
-
-        } else {
-            works = workRepository.findAll();
-            return new ResponseEntity<>(works, HttpStatus.OK);
-        }
+        works = workRepository.findByFilters(duration, composedAt, registred);
+        return new ResponseEntity<>(works, HttpStatus.OK);
     }
 
     public Work findById(Long id) {

@@ -49,7 +49,7 @@ public class WorkServiceTest {
                 new Work(2L, "Everlong", "USFOO2300543", "Rock", 4.50f, LocalDate.of(1997, 8, 18), true, musicians)
         );
 
-        when(workRepository.findAll()).thenReturn(workList);
+        when(workRepository.findByFilters(null, null, null)).thenReturn(workList);
 
         ResponseEntity<List<Work>> result = workService.findAll(null, null, null);
 

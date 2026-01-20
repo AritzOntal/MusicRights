@@ -47,7 +47,7 @@ public class DocumentServiceTest {
                 new Document(2L, "IMG", "foto_reclamacion.png", 128000L, LocalDate.of(2026, 1, 10), false, 45.5f, claim)
         );
 
-        when(documentRepository.findAll()).thenReturn(documents);
+        when(documentRepository.findByFilters(null, null, null)).thenReturn(documents);
 
         ResponseEntity<List<Document>> result = documentService.findAll(null, null, null);
 

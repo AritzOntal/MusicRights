@@ -55,7 +55,7 @@ public class ConcertServiceTest {
                 new Concert(2L, "Metal Night", "Madrid", "Madrid", LocalDate.of(2026, 9, 20), "CLOSED", false, 30.0f, -3.703790, 40.416775, musician)
         );
 
-        when(concertRepository.findAll()).thenReturn(concerts);
+        when(concertRepository.findByFilters(null, null, null)).thenReturn(concerts);
 
         ResponseEntity<List<Concert>> result = concertService.findAll(null, null, null);
 

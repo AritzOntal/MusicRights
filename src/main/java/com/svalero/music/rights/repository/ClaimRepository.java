@@ -16,5 +16,9 @@ public interface ClaimRepository extends JpaRepository<Claim, Long> {
 
     List <Claim> findByMusicianId(@Param("id") long id);
 
-    List <Claim> findByStatusAndTypeAndPending(String status, String type, Boolean pending);
+    @Query("SELECT c FROM Claim c WHERE " +
+            "(:status IS NULL OR c.status = :status) AND " +
+            "(:type IS NULL OR c.type = :type) AND " +
+            "(:pending IS NULL OR c.pending = :pending)")
+    List <Claim> findByFilters(String status, String type, Boolean pending);
 }

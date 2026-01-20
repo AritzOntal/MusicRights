@@ -41,15 +41,9 @@ public class DocumentService {
     public ResponseEntity<List<Document>> findAll(String type, Boolean complete, LocalDate createAd) {
 
         List<Document> documents;
+        documents = documentRepository.findByFilters(type, complete, createAd);
+        return ResponseEntity.ok().body(documents);
 
-        if ((type != null && !type.isBlank()) & (createAd != null) & (complete != null)) {
-            documents = documentRepository.findByTypeAndCompleteAndCreateAt(type, complete, createAd);
-            return ResponseEntity.ok().body(documents);
-
-        } else {
-            documents = documentRepository.findAll();
-            return ResponseEntity.ok().body(documents);
-        }
     }
 
     public Document findById(Long id) {
@@ -72,7 +66,7 @@ public class DocumentService {
         Document document = documentRepository.findById(id)
                 .orElseThrow(DocumentNotFoundException::new);
 
-        document.setComplete(updateDocument.isComplete());
+        document.setComplete(updateDocument.getComplete());
         document.setType(updateDocument.getType());
         document.setFilename(updateDocument.getFilename());
         document.setSize(updateDocument.getSize());

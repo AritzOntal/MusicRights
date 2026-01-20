@@ -20,6 +20,10 @@ public interface WorkRepository extends JpaRepository<Work, Long> {
 
     List<Work> findByMusicianId(@Param ("id")Long musicianId);
 
-    List<Work> findByDurationAndComposedAtAndRegistred(Float duration, LocalDate composedAt, Boolean registred);
+    @Query("SELECT w FROM Work w WHERE " +
+            "(:duration IS NULL OR w.duration = :duration) AND " +
+            "(:composedAt IS NULL OR w.composedAt = :composedAt) AND " +
+            "(:registred IS NULL OR w.registred = :registred)")
+    List<Work> findByFilters(Float duration, LocalDate composedAt, Boolean registred);
 
 }
