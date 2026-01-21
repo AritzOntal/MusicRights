@@ -1,5 +1,7 @@
 package com.svalero.music.rights.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.Max;
@@ -45,6 +47,7 @@ public class Document {
 
     //TODO CREAR COLUMNA PARA GUARDAR ARRAY DE BYETS DEL PDF
 
+    @JsonIgnoreProperties({"musician", "works"})
     @OneToOne
     @JoinColumn(name = "claim_id", unique = true)
     private Claim claim;

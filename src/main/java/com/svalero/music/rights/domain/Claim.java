@@ -2,6 +2,7 @@ package com.svalero.music.rights.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -41,7 +42,7 @@ public class Claim {
     private boolean pending;
 
     //TODO INTEGRAR FLOAT
-
+    @JsonIgnoreProperties("works")
     @ManyToOne
     @JoinColumn(name = "musician_id")
     private Musician musician;

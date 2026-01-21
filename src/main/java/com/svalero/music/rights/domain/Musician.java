@@ -1,6 +1,7 @@
 package com.svalero.music.rights.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -51,6 +52,7 @@ public class Musician {
     private long affiliatedNumber;
     // RELACIONAR CON UNA LISTA DE WORKS POR MUSICO (List<Work)
     //NO VUELVO A CREAR LA TABLA, UTIULIZO MAPPEDBY
+    @JsonIgnoreProperties("musicians")
     @ManyToMany(mappedBy = "musicians")
     private List<Work> works;
 

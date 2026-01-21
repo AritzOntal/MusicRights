@@ -1,7 +1,6 @@
 package com.svalero.music.rights.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -17,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "works")
+
 
 public class Work {
     @Id
@@ -50,8 +50,8 @@ public class Work {
     @Column(nullable = false)
     private boolean registred;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @ManyToMany
+    @JsonIgnoreProperties("works")
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "musician_work",
             joinColumns = @JoinColumn(name = "work_id"),
