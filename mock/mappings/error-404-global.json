@@ -1,0 +1,14 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "ANY",
+    "urlPathPattern": "/.*/999"
+  },
+  "response": {
+    "status": 404,
+    "bodyFileName": "error-404.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
