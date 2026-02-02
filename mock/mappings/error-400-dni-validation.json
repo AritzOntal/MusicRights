@@ -1,0 +1,20 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "POST",
+    "urlPath": "/musicians",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": "$.dni",
+        "doesNotMatch": "^\\d{8}[A-Za-z]$"
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "bodyFileName": "error-400-dni.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
