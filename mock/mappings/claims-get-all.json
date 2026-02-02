@@ -1,13 +1,13 @@
 {
   "request": {
     "method": "GET",
-    "urlPathPattern": "/concerts/by-musician/[0-9]+"
+    "urlPath": "/claims"
   },
   "response": {
     "status": 200,
+    "bodyFileName": "list-claims.json",
     "headers": {
       "Content-Type": "application/json"
-    },
-    "bodyFileName": "getConcertsByMusician-ok.json"
+    }
   }
 }

@@ -1,4 +1,0 @@
-{
-  "code": 400,
-  "message": "Bad Request: El DNI debe tener 8 dígitos seguidos de una letra."
-}
